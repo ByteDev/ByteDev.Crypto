@@ -2,9 +2,21 @@
 
 Provides simple cryptographic related classes for hashing/verifying and encrypting/decrypting data in .NET.
 
+## Installation
+
+ByteDev.Crypto has been written as a .NET Standard 2.0 library, so you can consume it from a .NET Core or .NET Framework 4.6.1 (or greater) application.
+
+ByteDev.Crypto is hosted as a package on nuget.org.  To install from the Package Manager Console in Visual Studio run:
+
+`Install-Package ByteDev.Crypto`
+
+Further details can be found on the [nuget page](https://www.nuget.org/packages/ByteDev.Crypto/).
+
 ## Code
 
-ByteDev.Common has been written as a .NET Standard 2.0 library, so you can consume it from a .NET Core or .NET Framework 4.6.1 (or greater) application.
+The repo can be cloned from git bash:
+
+`git clone https://github.com/ByteDev/ByteDev.Crypto`
 
 ## Usage
 

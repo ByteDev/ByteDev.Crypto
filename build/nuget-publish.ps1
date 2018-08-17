@@ -19,8 +19,8 @@ foreach($file in $files) {
 }
 
 Write-Output ""
-$key = Read-Host -Prompt "Please enter nuget.org API key" -AsSecureString
-$key = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($key))
+$key = Read-Host -Prompt "Please enter nuget.org API key" #-AsSecureString
+#$key = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($key))
 
 foreach($file in $files) {
     $filePath = $nupkgFileFolder + $file.Name
@@ -30,9 +30,9 @@ foreach($file in $files) {
     nuget push $filePath $key -Source https://api.nuget.org/v3/index.json
 
     if($LASTEXITCODE -eq 0) {
-        Write-Output "Publish '$filePath' successful."
+        Write-Host "Publish '$filePath' successful." -ForegroundColor Green
     }
     else {
-        Write-Output "Publish '$filePath' unsuccessful."
+        Write-Host "Publish '$filePath' unsuccessful." -ForegroundColor Red
     }
 }

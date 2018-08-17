@@ -12,8 +12,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         {
             return new HashService();
         }
-
-
+        
         [TestFixture]
         public class Hash : HashServiceTest
         {

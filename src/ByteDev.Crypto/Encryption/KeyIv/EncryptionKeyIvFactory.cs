@@ -13,7 +13,7 @@ namespace ByteDev.Crypto.Encryption.KeyIv
         }
 
         /// <summary>
-        /// Get key and initialisation vector
+        /// Create key and initialisation vector
         /// </summary>
         public EncryptionKeyIv Create(string password, byte[] salt)
         {
