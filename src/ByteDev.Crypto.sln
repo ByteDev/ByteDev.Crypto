@@ -14,6 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{3DD9339E-E
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A3129D4C-D250-4A2E-B5C1-2BC09C69D547}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\build.cake = ..\build\build.cake
+		..\build\nuget-publish.ps1 = ..\build\nuget-publish.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

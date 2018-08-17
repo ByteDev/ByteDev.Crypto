@@ -1,6 +1,6 @@
 # ByteDev.Crypto
 
-Provides some simple cryptographic related classes for hashing/verifying and encrypting/decrypting strings in .NET.
+Provides simple cryptographic related classes for hashing/verifying and encrypting/decrypting data in .NET.
 
 ## Code
 
