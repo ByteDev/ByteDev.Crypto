@@ -1,3 +1,5 @@
+[![NuGet Package](https://img.shields.io/nuget/v/ByteDev.Crypto.svg)](https://www.nuget.org/packages/ByteDev.Crypto)
+
 # ByteDev.Crypto
 
 Provides simple cryptographic related classes for hashing/verifying and encrypting/decrypting data in .NET.
