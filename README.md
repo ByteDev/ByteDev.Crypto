@@ -27,7 +27,7 @@ The repo can be cloned from git bash:
 
 Simple example of hasing some clear text ("Password123") and verifying a guess is equal.
 
-```
+```csharp
 var service = new HashService();
 
 string hash = service.Hash("Password123");
@@ -39,7 +39,7 @@ bool isLoginSuccessful = service.Verify("passwordGuess", hash);
 
 Simple example of encrypting a secret with a key and then decrypting it.
 
-```
+```csharp
 var algo = new RijndaelAlgorithm();
 
 var keyFactory = new EncryptionKeyIvFactory(algo);
@@ -49,5 +49,19 @@ var service = new EncryptionService(algo);
 
 byte[] cipher = service.Encrypt("mySecret", keyIv);
 
-string clearText = service.Decrypt(cipher, keyIv);	// clearText = "mySecret"
+string clearText = service.Decrypt(cipher, keyIv);	// clearText == "mySecret"
+```
+
+### Random
+
+Example of creating a random string of a specified length using only the characters specified.
+
+```csharp
+const string validChars = "1234567890";
+const int length = 5;
+
+using (var r = new CryptoRandom(validChars))
+{
+    string randomString = r.CreateRandomString(length);
+}
 ```
