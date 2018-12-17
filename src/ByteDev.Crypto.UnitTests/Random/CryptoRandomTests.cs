@@ -50,6 +50,28 @@ namespace ByteDev.Crypto.UnitTests.Random
                     Assert.That(result.IsDigitsOnly, Is.True);
                 }
             }
+
+            [Test]
+            public void WhenOnlyOneValidChar_AndLengthOne_ThenReturnChar()
+            {
+                using (var sut = new CryptoRandom("A"))
+                {
+                    var result = sut.CreateRandomString(1);
+
+                    Assert.That(result, Is.EqualTo("A"));
+                }
+            }
+
+            [Test]
+            public void WhenOnlyOneValidChar_ThenReturnSequenceOfChar()
+            {
+                using (var sut = new CryptoRandom("A"))
+                {
+                    var result = sut.CreateRandomString(5);
+
+                    Assert.That(result, Is.EqualTo("AAAAA"));
+                }
+            }
         }
     }
 }
