@@ -26,18 +26,17 @@ namespace ByteDev.Crypto.Random
 
             while (sb.Length < length)
             {
-                var index = GetIndex(_validChars.Length);
-                sb.Append(_validChars[index]);
+                sb.Append(_validChars[GetIndex()]);
             }
 
             return sb.ToString();
         }
 
-        private int GetIndex(int maxIndex)
+        private int GetIndex()
         {
-            int value = _rng.GetInt();
+            var randomInt = _rng.GetInt();
 
-            return value % maxIndex;
+            return randomInt % _validChars.Length;
         }
 
         public void Dispose()
