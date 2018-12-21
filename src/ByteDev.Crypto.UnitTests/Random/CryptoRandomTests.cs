@@ -40,18 +40,6 @@ namespace ByteDev.Crypto.UnitTests.Random
             }
 
             [Test]
-            public void WhenValidLength_ThenReturnRandomString()
-            {
-                using (var sut = new CryptoRandom(Digits))
-                {
-                    var result = sut.CreateRandomString(10);
-
-                    Assert.That(result.Length, Is.EqualTo(10));
-                    Assert.That(result.IsDigitsOnly, Is.True);
-                }
-            }
-
-            [Test]
             public void WhenOnlyOneValidChar_AndLengthOne_ThenReturnChar()
             {
                 using (var sut = new CryptoRandom("A"))
@@ -70,6 +58,42 @@ namespace ByteDev.Crypto.UnitTests.Random
                     var result = sut.CreateRandomString(5);
 
                     Assert.That(result, Is.EqualTo("AAAAA"));
+                }
+            }
+
+            [Test]
+            public void WhenValidChars_ThenReturnOnlyValidChars()
+            {
+                using (var sut = new CryptoRandom(Digits))
+                {
+                    var result = sut.CreateRandomString(100);
+
+                    Assert.That(result.IsDigitsOnly, Is.True);
+                }
+            }
+
+            [Test]
+            public void WhenValidLength_ThenReturnCorrectLength()
+            {
+                const int length = 50;
+
+                using (var sut = new CryptoRandom(Digits))
+                {
+                    var result = sut.CreateRandomString(length);
+
+                    Assert.That(result.Length, Is.EqualTo(length));
+                }
+            }
+
+            [Test]
+            public void WhenLongEnoughLength_ThenUsesValidCharsEdgeCases()
+            {
+                using (var sut = new CryptoRandom(Digits))
+                {
+                    var result = sut.CreateRandomString(1000);
+
+                    StringAssert.Contains(Digits[0].ToString(), result);
+                    StringAssert.Contains(Digits[9].ToString(), result);
                 }
             }
         }
