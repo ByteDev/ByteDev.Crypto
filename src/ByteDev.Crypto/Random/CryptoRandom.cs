@@ -35,12 +35,7 @@ namespace ByteDev.Crypto.Random
 
         private int GetIndex(int maxIndex)
         {
-            int value;
-
-            do
-            {
-                value = _rng.GetInt();
-            } while (value >= maxIndex * (int.MaxValue / maxIndex));
+            int value = _rng.GetInt();
 
             return value % maxIndex;
         }
