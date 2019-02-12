@@ -61,6 +61,6 @@ const int length = 5;
 
 using (var r = new CryptoRandom(CharacterSets.Digits))
 {
-    string randomString = r.CreateRandomString(length);
+    string randomString = r.GenerateString(length);
 }
 ```
