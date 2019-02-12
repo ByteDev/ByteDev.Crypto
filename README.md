@@ -3,7 +3,7 @@
 
 # ByteDev.Crypto
 
-Provides simple cryptographic related classes for hashing/verifying and encrypting/decrypting data in .NET.
+Provides simple cryptographic related classes for hashing/verifying data, encrypting/decrypting data and creating ramdon data in .NET.
 
 ## Installation
 
@@ -25,19 +25,19 @@ The repo can be cloned from git bash:
 
 ### Hashing
 
-Simple example of hasing some clear text ("Password123") and verifying a guess is equal.
+Hash some clear text (returned as base 64 string) and verify a guess is equal.
 
 ```csharp
 var service = new HashService();
 
-string hash = service.Hash("Password123");
+string hash = service.Hash("Password1");
 
 bool isLoginSuccessful = service.Verify("passwordGuess", hash);
 ```
 
 ### Encryption
 
-Simple example of encrypting a secret with a key and then decrypting it.
+Encrypt a secret with a key and then decrypt it.
 
 ```csharp
 var algo = new RijndaelAlgorithm();
@@ -54,13 +54,12 @@ string clearText = service.Decrypt(cipher, keyIv);	// clearText == "mySecret"
 
 ### Random
 
-Example of creating a random string of a specified length using only the characters specified.
+Generate a random string of a specified length using only the character set specified.
 
 ```csharp
-const string validChars = "1234567890";
 const int length = 5;
 
-using (var r = new CryptoRandom(validChars))
+using (var r = new CryptoRandom(CharacterSets.Digits))
 {
     string randomString = r.CreateRandomString(length);
 }

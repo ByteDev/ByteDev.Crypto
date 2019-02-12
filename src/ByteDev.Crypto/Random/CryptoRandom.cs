@@ -6,37 +6,49 @@ namespace ByteDev.Crypto.Random
 {
     public class CryptoRandom : IDisposable
     {
-        private readonly string _validChars;
+        private readonly string _characterSet;
         private readonly RNGCryptoServiceProvider _rng;
 
-        public CryptoRandom(string validChars)
+        public CryptoRandom(string characterSet)
         {
-            if (string.IsNullOrEmpty(validChars))
+            if (string.IsNullOrEmpty(characterSet))
             {
-                throw new ArgumentException("Valid character string was null or empty.", nameof(validChars));
+                throw new ArgumentException("Character set was null or empty.", nameof(characterSet));
             }
 
-            _validChars = validChars;
+            _characterSet = characterSet;
             _rng = new RNGCryptoServiceProvider();
         }
 
-        public string CreateRandomString(int length)
+        public string GenerateString(int length)
         {
             var sb = new StringBuilder();
 
             while (sb.Length < length)
             {
-                sb.Append(_validChars[GetIndex()]);
+                sb.Append(_characterSet[GetIndex()]);
+            }
+            
+            return sb.ToString();
+        }
+
+        public char[] GenerateArray(int length)
+        {
+            var buffer = new char[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                buffer[i] = _characterSet[GetIndex()];
             }
 
-            return sb.ToString();
+            return buffer;
         }
 
         private int GetIndex()
         {
             var randomInt = _rng.GetInt();
 
-            return randomInt % _validChars.Length;
+            return randomInt % _characterSet.Length;
         }
 
         public void Dispose()
