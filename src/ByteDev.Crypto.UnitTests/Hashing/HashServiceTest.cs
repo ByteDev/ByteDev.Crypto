@@ -8,7 +8,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
     [TestFixture]
     public class HashServiceTest
     {
-        public HashService CreateClassUnderTest()
+        public HashService CreateSut()
         {
             return new HashService();
         }
@@ -55,35 +55,24 @@ namespace ByteDev.Crypto.UnitTests.Hashing
 
                 Assert.That(resultSalted, Is.Not.EqualTo(resultNotSalted));
             }
-
-            [Test]
-            public void WhenPhraseAndNullSalt_ThenReturnUnsaltedHash()
-            {
-                const string phrase = "smith";
-
-                var resultEmptySalt = Act(phrase, string.Empty);
-                var resultNullSalt = Act(phrase, null);
-
-                Assert.That(resultEmptySalt, Is.EqualTo(resultNullSalt));
-            }
-
+            
             private string Act(string phrase, string salt)
             {
-                var classUnderTest = CreateClassUnderTest();
+                var sut = CreateSut();
 
-                return classUnderTest.Hash(phrase, salt);
+                return sut.Hash(new HashPhrase(phrase, salt));
             }
         }
 
         [TestFixture]
         public class Verify : HashServiceTest
         {
-            private HashService _classUnderTest;
+            private HashService _sut;
 
             [SetUp]
             public void SetUp()
             {
-                _classUnderTest = CreateClassUnderTest();
+                _sut = CreateSut();
             }
 
             [Test]
@@ -136,12 +125,12 @@ namespace ByteDev.Crypto.UnitTests.Hashing
 
             private string HashPhraseWithSalt(string phrase, string salt)
             {
-                return _classUnderTest.Hash(phrase, salt);
+                return _sut.Hash(new HashPhrase(phrase, salt));
             }
 
             private bool Act(string phrase, string salt, string hashedPhrase)
             {
-                return _classUnderTest.Verify(phrase, salt, hashedPhrase);
+                return _sut.Verify(new HashPhrase(phrase, salt), hashedPhrase);
             }
         }
     }

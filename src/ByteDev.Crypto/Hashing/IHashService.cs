@@ -2,10 +2,8 @@
 {
     public interface IHashService
     {
-        string Hash(string phrase);
-        string Hash(string phrase, string salt);
+        string Hash(HashPhrase phrase);
 
-        bool Verify(string phrase, string expectedHashedPhrase);
-        bool Verify(string phrase, string salt, string expectedHashedPhrase);
+        bool Verify(HashPhrase phrase, string expectedHashedPhrase);
     }
 }

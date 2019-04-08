@@ -3,7 +3,7 @@
 
 # ByteDev.Crypto
 
-Provides simple cryptographic related classes for hashing/verifying data, encrypting/decrypting data and creating ramdon data in .NET.
+Provides simple cryptographic related classes for hashing/verifying data, encrypting/decrypting data and creating crypto ramdon data in .NET.
 
 ## Installation
 
@@ -30,9 +30,9 @@ Hash some clear text (returned as base 64 string) and verify a guess is equal.
 ```csharp
 var service = new HashService();
 
-string hash = service.Hash("Password1");
+string hash = service.Hash(new HashPhrase("Password1"));
 
-bool isLoginSuccessful = service.Verify("passwordGuess", hash);
+bool isLoginSuccessful = service.Verify(new HashPhrase("passwordGuess"), hash);
 ```
 
 ### Encryption

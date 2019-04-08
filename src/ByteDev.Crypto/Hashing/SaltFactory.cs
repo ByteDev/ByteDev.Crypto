@@ -1,15 +1,14 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace ByteDev.Crypto.Hashing
 {
     public class SaltFactory : ISaltFactory
     {
-        public byte[] Create(int saltLength)
+        public HashSalt Create(int saltLength)
         {
             if (saltLength <= 0)
             {
-                return new byte[0];
+                return new HashSalt();
             }
 
             using (var provider = new RNGCryptoServiceProvider())
@@ -18,22 +17,8 @@ namespace ByteDev.Crypto.Hashing
 
                 provider.GetBytes(bytes);
 
-                return bytes;
+                return new HashSalt(bytes);
             }
-        }
-
-        public string CreateAsBase64(int saltLength)
-        {
-            var bytes = Create(saltLength);
-
-            return Convert.ToBase64String(bytes);
-        }
-
-        public string CreateAsHex(int saltLength)
-        {
-            var bytes = Create(saltLength);
-
-            return BitConverter.ToString(bytes).Replace("-", "");
         }
     }
 }
