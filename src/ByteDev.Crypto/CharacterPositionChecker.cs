@@ -4,8 +4,19 @@ using System.Linq;
 
 namespace ByteDev.Crypto
 {
+    /// <summary>
+    /// Checks whether certain characters are present at certain positions in strings and char arrays.
+    /// </summary>
     public static class CharacterPositionChecker
     {
+        /// <summary>
+        /// Verify that a set of characters appear within a phrase at certain positions.
+        /// </summary>
+        /// <param name="phrase">The phrase to check.</param>
+        /// <param name="characterPositions">The characters and their positions.</param>
+        /// <returns>True if the characters exist at the positions; otherwise returns false.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
+        /// <exception cref="T:System.ArgumentException"><paramref name="phrase" /> is empty.</exception>
         public static bool Verify(string phrase, IEnumerable<CharacterPosition> characterPositions)
         {
             if(phrase == null)
@@ -19,6 +30,14 @@ namespace ByteDev.Crypto
             return characterPositions.All(cp => phrase[cp.Position] == cp.Character);
         }
 
+        /// <summary>
+        /// Verify that a set of characters appear within a phrase at certain positions.
+        /// </summary>
+        /// <param name="phrase">The phrase to check.</param>
+        /// <param name="characterPositions">The characters and their positions.</param>
+        /// <returns>True if the characters exist at the positions; otherwise returns false.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
+        /// <exception cref="T:System.ArgumentException"><paramref name="phrase" /> is empty.</exception>
         public static bool Verify(char[] phrase, IEnumerable<CharacterPosition> characterPositions)
         {
             if (phrase == null)

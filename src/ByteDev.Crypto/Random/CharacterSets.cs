@@ -1,5 +1,8 @@
 ﻿namespace ByteDev.Crypto.Random
 {
+    /// <summary>
+    /// Represents different sets of characters as strings.
+    /// </summary>
     public static class CharacterSets
     {
         /// <summary>

@@ -4,24 +4,35 @@ using ByteDev.Crypto.Hashing.Algorithms;
 
 namespace ByteDev.Crypto.Hashing
 {
+    /// <summary>
+    /// Represents a service for hashing and verifying phrases.
+    /// </summary>
     public class HashService : IHashService
     {
         private readonly IHashAlgorithm _hashAlgorithm;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
+        /// </summary>
         public HashService() : this(new Sha256Algorithm())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
+        /// </summary>
+        /// <param name="hashAlgorithm">Hashing algorithm to use when performing any hashing operation.</param>
         public HashService(IHashAlgorithm hashAlgorithm)
         {
             _hashAlgorithm = hashAlgorithm;
         }
         
         /// <summary>
-        /// One way hashes the given phrase
+        /// One way hashes the given phrase.
         /// </summary>
-        /// <param name="phrase">Phrase to hash</param>
-        /// <returns>Hash of phrase as base64 string</returns>
+        /// <param name="phrase">Phrase to hash.</param>
+        /// <returns>Hash of <paramref name="phrase" /> as base64 string.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
         public string Hash(HashPhrase phrase)
         {
             if(phrase == null)
@@ -33,12 +44,13 @@ namespace ByteDev.Crypto.Hashing
         }
         
         /// <summary>
-        /// Verify that the hash of the given phrase is
-        /// equal to the expected hashed phrase
+        /// Verify that the hash of <paramref name="phrase" /> is equal to <paramref name="expectedHashedPhrase" />.
         /// </summary>
-        /// <param name="phrase">Clear text phrase</param>
-        /// <param name="expectedHashedPhrase">Hashed base 64 phrase</param>
-        /// <returns>Boolean value indicating if phrase and hashed phrase are equal</returns>
+        /// <param name="phrase">Clear text phrase.</param>
+        /// <param name="expectedHashedPhrase">Hashed base64 phrase.</param>
+        /// <returns>True if phrase and hashed phrase are equal; otherwise returns false.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="expectedHashedPhrase" /> is null.</exception>
         public bool Verify(HashPhrase phrase, string expectedHashedPhrase)
         {
             if (phrase == null)

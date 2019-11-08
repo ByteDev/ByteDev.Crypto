@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace ByteDev.Crypto.Random
 {
-    public static class RngCryptoServiceProviderExtensions
+    internal static class RngCryptoServiceProviderExtensions
     {
         public static int GetInt(this RNGCryptoServiceProvider rng)
         {
