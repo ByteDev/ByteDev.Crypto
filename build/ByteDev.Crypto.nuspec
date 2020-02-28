@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ByteDev.Crypto</id>
+    <version>0.0.1</version>
+    <title>ByteDev.Crypto</title>
+    <authors>Paul Stanley</authors>
+    <owners>Paul Stanley</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides simple cryptographic related classes for hashing/verifying data, encrypting/decrypting data and creating random data in .NET.</description>
+    <copyright>Copyright 2019</copyright>
+    <tags>cryptography crypto hash encrypt decrypt random number character</tags>
+    <iconUrl>https://raw.githubusercontent.com/bytedev/ByteDev.Crypto/master/images/icon.png</iconUrl>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\src\ByteDev.Crypto\bin\Release\netstandard2.0\ByteDev.Crypto.dll" target="lib\netstandard2.0" />
+    <file src="..\src\ByteDev.Crypto\bin\Release\netstandard2.0\ByteDev.Crypto.xml" target="lib\netstandard2.0" />
+    <file src="..\images\icon.png" target="images\" />
+  </files>
+</package>
