@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto.Net461.PackageTests", "test\ByteDev.Crypto.Net461.PackageTests\ByteDev.Crypto.Net461.PackageTests.csproj", "{4B83F9D6-5906-4232-A506-C1F54436A7B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto.NetCore.PackageTests", "test\ByteDev.Crypto.NetCore.PackageTests\ByteDev.Crypto.NetCore.PackageTests.csproj", "{9B80B626-AA3F-4D37-AB7F-B69D2F5E639F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{CD9D71A9-893D-4A64-ABBB-228D088C9377}"
+	ProjectSection(SolutionItems) = preProject
+		build\build-package-tests.cake = build\build-package-tests.cake
+		build\ByteDev.Utilities.cake = build\ByteDev.Utilities.cake
+	EndProjectSection
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ByteDev.Crypto.Shared.PackageTests", "test\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.shproj", "{A8AAF776-C8A2-4944-B3ED-10F0426C8474}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		test\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.projitems*{a8aaf776-c8a2-4944-b3ed-10f0426c8474}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B83F9D6-5906-4232-A506-C1F54436A7B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B83F9D6-5906-4232-A506-C1F54436A7B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B83F9D6-5906-4232-A506-C1F54436A7B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B83F9D6-5906-4232-A506-C1F54436A7B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B80B626-AA3F-4D37-AB7F-B69D2F5E639F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B80B626-AA3F-4D37-AB7F-B69D2F5E639F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B80B626-AA3F-4D37-AB7F-B69D2F5E639F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B80B626-AA3F-4D37-AB7F-B69D2F5E639F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C591A58-3179-4752-81FC-EFDEDBB097EB}
+	EndGlobalSection
+EndGlobal

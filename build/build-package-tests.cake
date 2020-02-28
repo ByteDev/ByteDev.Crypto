@@ -3,7 +3,7 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.1.3"
 #load "ByteDev.Utilities.cake"
 
-var solutionName = "ByteDev.Collections.PackageTests";
+var solutionName = "ByteDev.Crypto.PackageTests";
 
 var solutionFilePath = "../" + solutionName + ".sln";
 

@@ -15,6 +15,12 @@ ByteDev.Crypto is hosted as a package on nuget.org.  To install from the Package
 
 Further details can be found on the [nuget page](https://www.nuget.org/packages/ByteDev.Crypto/).
 
+## Release Notes
+
+Releases follow semantic versioning.
+
+Full details of the release notes can be viewed on [GitHub](https://github.com/ByteDev/ByteDev.Crypto/blob/master/docs/RELEASE-NOTES.md).
+
 ## Code
 
 The repo can be cloned from git bash:
