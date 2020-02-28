@@ -11,6 +11,9 @@
     <copyright>Copyright 2019</copyright>
     <tags>cryptography crypto hash encrypt decrypt random number character</tags>
     <iconUrl>https://raw.githubusercontent.com/bytedev/ByteDev.Crypto/master/images/icon.png</iconUrl>
+	<dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="ByteDev.Crypto\bin\Release\netstandard2.0\ByteDev.Crypto.dll" target="lib\netstandard2.0" />
