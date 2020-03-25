@@ -101,6 +101,55 @@ namespace ByteDev.Crypto.UnitTests.Random
         }
 
         [TestFixture]
+        public class GenerateString_MinMaxLength : CryptoRandomTests
+        {
+            [Test]
+            public void WhenMinIsZero_ThenThrowException()
+            {
+                using (var sut = new CryptoRandom(CharacterSets.Digits))
+                {
+                    Assert.Throws<ArgumentOutOfRangeException>(() => sut.GenerateString(0, 1));
+                }
+            }
+
+            [Test]
+            public void WhenMinIsGreaterThanMax_ThenThrowException()
+            {
+                using (var sut = new CryptoRandom(CharacterSets.Digits))
+                {
+                    Assert.Throws<ArgumentOutOfRangeException>(() => sut.GenerateString(2, 1));
+                }
+            }
+
+            [Test]
+            public void WhenMinIsMax_ThenReturnValidChars()
+            {
+                using (var sut = new CryptoRandom("A"))
+                {
+                    var result = sut.GenerateString(3, 3);
+
+                    Assert.That(result, Is.EqualTo("AAA"));
+                }
+            }
+
+            [Test]
+            public void WhenMinIsLessThanMax_ThenReturnRandomLength()
+            {
+                using (var sut = new CryptoRandom("A"))
+                {
+                    for (var i = 0; i < 100; i++)
+                    {
+                        var result = sut.GenerateString(1, 2);
+
+                        Assert.That(result, Is.EqualTo("A").Or.EqualTo("AA"));
+
+                        Console.WriteLine(i + "=" + result);
+                    }
+                }
+            }
+        }
+
+        [TestFixture]
         public class GenerateString : CryptoRandomTests
         {
             [Test]

@@ -11,7 +11,7 @@ namespace ByteDev.Crypto.Random
     {
         private readonly string _characterSet;
         private readonly RNGCryptoServiceProvider _rng;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Random.CryptoRandom" /> class.
         /// </summary>
@@ -41,6 +41,36 @@ namespace ByteDev.Crypto.Random
             }
             
             return sb.ToString();
+        }
+
+        public string GenerateString(int minLength, int maxLength)
+        {
+            if(minLength < 1)
+                throw new ArgumentOutOfRangeException(nameof(minLength), "Min length was less than one.");
+
+            if (minLength > maxLength)
+                throw new ArgumentOutOfRangeException(nameof(minLength), "Min length was greater than max length.");
+
+            int length = Next(minLength, maxLength);
+
+            return GenerateString(length);
+        }
+
+        private int Next(int minLength, int maxLength)
+        {
+            if (minLength == maxLength) 
+                return minLength;
+
+            var data = new byte[4];
+            _rng.GetBytes(data);
+
+            int generatedValue = Math.Abs(BitConverter.ToInt32(data, 0));
+
+            int diff = maxLength - minLength + 1;
+            int mod = generatedValue % diff;
+            int normalizedNumber = minLength + mod;
+
+            return normalizedNumber;
         }
 
         /// <summary>
