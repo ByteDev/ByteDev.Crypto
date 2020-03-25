@@ -104,15 +104,6 @@ namespace ByteDev.Crypto.UnitTests.Random
         public class GenerateString_MinMaxLength : CryptoRandomTests
         {
             [Test]
-            public void WhenMinIsZero_ThenThrowException()
-            {
-                using (var sut = new CryptoRandom(CharacterSets.Digits))
-                {
-                    Assert.Throws<ArgumentOutOfRangeException>(() => sut.GenerateString(0, 1));
-                }
-            }
-
-            [Test]
             public void WhenMinIsGreaterThanMax_ThenThrowException()
             {
                 using (var sut = new CryptoRandom(CharacterSets.Digits))
@@ -122,29 +113,87 @@ namespace ByteDev.Crypto.UnitTests.Random
             }
 
             [Test]
-            public void WhenMinIsMax_ThenReturnValidChars()
+            public void WhenMinAndMaxIsZero_ThenReturnEmpty()
             {
                 using (var sut = new CryptoRandom("A"))
                 {
-                    var result = sut.GenerateString(3, 3);
+                    var result = sut.GenerateString(0, 0);
 
-                    Assert.That(result, Is.EqualTo("AAA"));
+                    Assert.That(result, Is.Empty);
+                }
+            }
+
+            [Test]
+            public void WhenMinIsMinusAndMaxIsZero_ThenReturnEmpty()
+            {
+                using (var sut = new CryptoRandom("A"))
+                {
+                    for (var i = 0; i < 100; i++)
+                    {
+                        var result = sut.GenerateString(-1, 0);
+
+                        Assert.That(result, Is.Empty);
+                    }
+                }
+            }
+            
+            [Test]
+            public void WhenMinAndMaxIsOne_ThenOneLengthString()
+            {
+                using (var sut = new CryptoRandom("A"))
+                {
+                    var result = sut.GenerateString(1, 1);
+
+                    Assert.That(result, Is.EqualTo("A"));
+                }
+            }
+
+            [Test]
+            public void WhenMinAndMaxIsEqual_ThenReturnValidString()
+            {
+                using (var sut = new CryptoRandom("A"))
+                {
+                    var result = sut.GenerateString(2, 2);
+
+                    Assert.That(result, Is.EqualTo("AA"));
                 }
             }
 
             [Test]
             public void WhenMinIsLessThanMax_ThenReturnRandomLength()
             {
+                var createdLen2 = false;
+                var createdLen3 = false;
+
                 using (var sut = new CryptoRandom("A"))
                 {
                     for (var i = 0; i < 100; i++)
                     {
-                        var result = sut.GenerateString(1, 2);
+                        var result = sut.GenerateString(2, 3);
 
-                        Assert.That(result, Is.EqualTo("A").Or.EqualTo("AA"));
+                        Assert.That(result, Is.EqualTo("AA").Or.EqualTo("AAA"));
 
-                        Console.WriteLine(i + "=" + result);
+                        if (result.Length == 2)
+                            createdLen2 = true;
+
+                        if (result.Length == 3)
+                            createdLen3 = true;
                     }
+                }
+
+                Assert.That(createdLen2, Is.True);
+                Assert.That(createdLen3, Is.True);
+            }
+            
+            [Test]
+            public void WhenLongEnoughLength_ThenUsesValidCharsEdgeCases()
+            {
+                using (var sut = new CryptoRandom(CharacterSets.Digits))
+                {
+                    var result = sut.GenerateString(1000, 2000);
+
+                    StringAssert.Contains(CharacterSets.Digits[0].ToString(), result);
+                    StringAssert.Contains(CharacterSets.Digits[9].ToString(), result);
                 }
             }
         }
@@ -153,7 +202,7 @@ namespace ByteDev.Crypto.UnitTests.Random
         public class GenerateString : CryptoRandomTests
         {
             [Test]
-            public void WhenLengthIsZero_ThenReturnEmptyString()
+            public void WhenLengthIsZero_ThenReturnEmpty()
             {
                 using (var sut = new CryptoRandom(CharacterSets.Digits))
                 {
@@ -164,7 +213,18 @@ namespace ByteDev.Crypto.UnitTests.Random
             }
 
             [Test]
-            public void WhenOnlyOneValidChar_AndLengthOne_ThenReturnChar()
+            public void WhenLengthIsMinus_ThenReturnEmpty()
+            {
+                using (var sut = new CryptoRandom(CharacterSets.Digits))
+                {
+                    var result = sut.GenerateString(-1);
+
+                    Assert.That(result, Is.Empty);
+                }
+            }
+
+            [Test]
+            public void WhenOnlyOneValidChar_AndLengthOne_ThenReturnOneCharString()
             {
                 using (var sut = new CryptoRandom("A"))
                 {

@@ -1,12 +1,13 @@
 # Release Notes
 
-## 3.1.0 - 24 March 2020
+## 3.1.0 - 25 March 2020
 
 Breaking changes:
 - (None)
 
 New features:
 - Added CharacterSets.AsciiSpecial
+- Added CryptoRandom.GenerateString() overload
 
 Bug fixes / internal changes:
 - (None)

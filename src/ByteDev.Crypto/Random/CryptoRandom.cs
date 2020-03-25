@@ -27,7 +27,7 @@ namespace ByteDev.Crypto.Random
         }
 
         /// <summary>
-        /// Generate a random string.
+        /// Generates a random string of a certain length.
         /// </summary>
         /// <param name="length">The required length of the random string.</param>
         /// <returns>The random string.</returns>
@@ -43,38 +43,25 @@ namespace ByteDev.Crypto.Random
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Generates a random string of random length between a given minimum and maximum.
+        /// </summary>
+        /// <param name="minLength">Minimum random length of the string.</param>
+        /// <param name="maxLength">Maximum random length of the string.</param>
+        /// <returns>The random string.</returns>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minLength" /> was greater than <paramref name="maxLength" />.</exception>
         public string GenerateString(int minLength, int maxLength)
         {
-            if(minLength < 1)
-                throw new ArgumentOutOfRangeException(nameof(minLength), "Min length was less than one.");
-
             if (minLength > maxLength)
                 throw new ArgumentOutOfRangeException(nameof(minLength), "Min length was greater than max length.");
 
-            int length = Next(minLength, maxLength);
+            int length = RandomLength(minLength, maxLength);
 
             return GenerateString(length);
         }
 
-        private int Next(int minLength, int maxLength)
-        {
-            if (minLength == maxLength) 
-                return minLength;
-
-            var data = new byte[4];
-            _rng.GetBytes(data);
-
-            int generatedValue = Math.Abs(BitConverter.ToInt32(data, 0));
-
-            int diff = maxLength - minLength + 1;
-            int mod = generatedValue % diff;
-            int normalizedNumber = minLength + mod;
-
-            return normalizedNumber;
-        }
-
         /// <summary>
-        /// Generate a random an array of random characters.
+        /// Generate an array of random characters of a certain length.
         /// </summary>
         /// <param name="length">The required length of the random string.</param>
         /// <returns>The random string.</returns>
@@ -103,6 +90,22 @@ namespace ByteDev.Crypto.Random
             var randomInt = _rng.GetInt();
 
             return randomInt % _characterSet.Length;
+        }
+
+        private int RandomLength(int minLength, int maxLength)
+        {
+            if (minLength == maxLength) 
+                return minLength;
+
+            var bytes = new byte[4];
+            _rng.GetBytes(bytes);
+
+            int generatedValue = Math.Abs(BitConverter.ToInt32(bytes, 0));
+
+            int diff = maxLength - minLength + 1;
+            int mod = generatedValue % diff;
+            
+            return minLength + mod;
         }
     }
 }
