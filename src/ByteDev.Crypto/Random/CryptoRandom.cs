@@ -78,6 +78,23 @@ namespace ByteDev.Crypto.Random
         }
 
         /// <summary>
+        /// Generates an array of random characters of random length between a given minimum and maximum.
+        /// </summary>
+        /// <param name="minLength">Minimum random length of the array.</param>
+        /// <param name="maxLength">Maximum random length of the array.</param>
+        /// <returns>The random string.</returns>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minLength" /> was greater than <paramref name="maxLength" />.</exception>
+        public char[] GenerateArray(int minLength, int maxLength)
+        {
+            if (minLength > maxLength)
+                throw new ArgumentOutOfRangeException(nameof(minLength), "Min length was greater than max length.");
+
+            int length = RandomLength(minLength, maxLength);
+
+            return GenerateArray(length);
+        }
+
+        /// <summary>
         /// Disposes the object.
         /// </summary>
         public void Dispose()

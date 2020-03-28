@@ -1,5 +1,16 @@
 # Release Notes
 
+## 3.2.0 - 28 March 2020
+
+Breaking changes:
+- (None)
+
+New features:
+- Added CryptoRandom.GenerateArray() overload
+
+Bug fixes / internal changes:
+- (None)
+
 ## 3.1.0 - 25 March 2020
 
 Breaking changes:
