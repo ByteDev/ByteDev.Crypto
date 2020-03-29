@@ -9,6 +9,7 @@
     <Import_RootNamespace>ByteDev.Crypto.Shared.PackageTests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CryptoRandomTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionServiceTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.cs" />
   </ItemGroup>
