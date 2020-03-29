@@ -8,7 +8,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
     [TestFixture]
     public class HashServiceTest
     {
-        public HashService CreateSut()
+        private static HashService CreateSut()
         {
             return new HashService();
         }

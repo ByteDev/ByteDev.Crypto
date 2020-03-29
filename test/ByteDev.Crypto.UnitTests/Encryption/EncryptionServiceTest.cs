@@ -13,8 +13,6 @@ namespace ByteDev.Crypto.UnitTests.Encryption
         private const string Password = "Password1";
         private const string Salt = "ftK9Q4f3";
 
-        private static readonly byte[] CipherText = {1, 2, 3};
-
         protected EncryptionService CreateSut(IEncryptionAlgorithm algorithm, EncryptionKeyIv key)
         {
             return new EncryptionService(algorithm, key);

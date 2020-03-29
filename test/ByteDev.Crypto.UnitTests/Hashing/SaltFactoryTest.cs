@@ -6,7 +6,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
     [TestFixture]
     public class SaltFactoryTest
     {
-        public SaltFactory CreateSut()
+        private static SaltFactory CreateSut()
         {
             return new SaltFactory();
         }
