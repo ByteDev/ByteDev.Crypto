@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto.Net461.PackageTests", "test\ByteDev.Crypto.Net461.PackageTests\ByteDev.Crypto.Net461.PackageTests.csproj", "{4B83F9D6-5906-4232-A506-C1F54436A7B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto.Net461.PackageTests", "tests\ByteDev.Crypto.Net461.PackageTests\ByteDev.Crypto.Net461.PackageTests.csproj", "{4B83F9D6-5906-4232-A506-C1F54436A7B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto.NetCore.PackageTests", "test\ByteDev.Crypto.NetCore.PackageTests\ByteDev.Crypto.NetCore.PackageTests.csproj", "{9B80B626-AA3F-4D37-AB7F-B69D2F5E639F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto.NetCore.PackageTests", "tests\ByteDev.Crypto.NetCore.PackageTests\ByteDev.Crypto.NetCore.PackageTests.csproj", "{9B80B626-AA3F-4D37-AB7F-B69D2F5E639F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{CD9D71A9-893D-4A64-ABBB-228D088C9377}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{CD9D71A9
 		build\ByteDev.Utilities.cake = build\ByteDev.Utilities.cake
 	EndProjectSection
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ByteDev.Crypto.Shared.PackageTests", "test\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.shproj", "{A8AAF776-C8A2-4944-B3ED-10F0426C8474}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ByteDev.Crypto.Shared.PackageTests", "tests\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.shproj", "{A8AAF776-C8A2-4944-B3ED-10F0426C8474}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

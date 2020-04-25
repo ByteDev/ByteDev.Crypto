@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto", "src\ByteD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A029AC5E-B829-402F-B185-6910B3B8A3B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto.UnitTests", "test\ByteDev.Crypto.UnitTests\ByteDev.Crypto.UnitTests.csproj", "{C3DBA785-186B-4D8A-8A5B-A8222570723F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDev.Crypto.UnitTests", "tests\ByteDev.Crypto.UnitTests\ByteDev.Crypto.UnitTests.csproj", "{C3DBA785-186B-4D8A-8A5B-A8222570723F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{3DD9339E-E2CA-41D8-844B-41DED66A4DFB}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A3129D4C
 		build\ByteDev.Utilities.cake = build\ByteDev.Utilities.cake
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteDev.Crypto.IntTests", "test\ByteDev.Crypto.IntTests\ByteDev.Crypto.IntTests.csproj", "{7C5D1BB8-69C0-4CA1-AAA7-F2A7C741F0A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteDev.Crypto.IntTests", "tests\ByteDev.Crypto.IntTests\ByteDev.Crypto.IntTests.csproj", "{7C5D1BB8-69C0-4CA1-AAA7-F2A7C741F0A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
