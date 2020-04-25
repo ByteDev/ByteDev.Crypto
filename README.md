@@ -35,11 +35,19 @@ The repo can be cloned from git bash:
 Hash some clear text (returned as base 64 string) and verify a guess is equal.
 
 ```csharp
-var service = new HashService();
+IHashService service = new HashService();
 
 string hash = service.Hash(new HashPhrase("Password1"));
 
 bool isLoginSuccessful = service.Verify(new HashPhrase("passwordGuess"), hash);
+```
+
+Calculate a checksum (returned as base 64 string) for a file.
+
+```csharp
+IHashService service = new HashService(new Md5Algorithm());
+
+string checksum = service.CalcFileChecksum(@"C:\somefile.txt");
 ```
 
 ### Encryption
@@ -52,7 +60,7 @@ var algo = new RijndaelAlgorithm();
 var keyFactory = new EncryptionKeyIvFactory(algo);
 var keyIv = keyFactory.Create("Password1", Encoding.UTF8.GetBytes("someSalt"));
 
-var service = new EncryptionService(algo);
+IEncryptionService service = new EncryptionService(algo);
 
 byte[] cipher = service.Encrypt("mySecret", keyIv);
 

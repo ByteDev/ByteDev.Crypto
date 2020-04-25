@@ -9,7 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Provides simple cryptographic related classes for hashing/verifying data, encrypting/decrypting data and creating random data in .NET.</description>
     <copyright>Copyright 2019</copyright>
-    <tags>cryptography crypto hash encrypt decrypt random number character</tags>
+    <tags>cryptography crypto hash encrypt decrypt checksum random number character file</tags>
     <iconUrl>https://raw.githubusercontent.com/bytedev/ByteDev.Crypto/master/images/icon.png</iconUrl>
     <dependencies>
       <group targetFramework=".NETStandard2.0" />
