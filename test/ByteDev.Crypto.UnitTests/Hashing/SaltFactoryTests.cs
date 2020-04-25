@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace ByteDev.Crypto.UnitTests.Hashing
 {
     [TestFixture]
-    public class SaltFactoryTest
+    public class SaltFactoryTests
     {
         private static SaltFactory CreateSut()
         {

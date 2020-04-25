@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace ByteDev.Crypto.UnitTests.Hashing
 {
     [TestFixture]
-    public class HashPhraseTest
+    public class HashPhraseTests
     {
         [Test]
         public void WhenPhraseIsNull_ThenThrowException()

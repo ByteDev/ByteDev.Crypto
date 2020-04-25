@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace ByteDev.Crypto.UnitTests.Hashing
 {
     [TestFixture]
-    public class HashServiceTest
+    public class HashServiceTests
     {
         private static HashService CreateSut()
         {
@@ -14,7 +14,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         }
         
         [TestFixture]
-        public class Hash : HashServiceTest
+        public class Hash : HashServiceTests
         {
             [Test]
             public void WhenPhraseIsNull_ThenThrowException()
@@ -65,7 +65,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         }
 
         [TestFixture]
-        public class Verify : HashServiceTest
+        public class Verify : HashServiceTests
         {
             private HashService _sut;
 
@@ -131,6 +131,22 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             private bool Act(string phrase, string salt, string hashedPhrase)
             {
                 return _sut.Verify(new HashPhrase(phrase, salt), hashedPhrase);
+            }
+        }
+
+        [TestFixture]
+        public class CalcFileChecksum : HashServiceTests
+        {
+            [Test]
+            public void WhenFilePathIsNull_ThenThrowException()
+            {
+                Assert.Throws<ArgumentNullException>(() => CreateSut().CalcFileChecksum(null));
+            }
+
+            [Test]
+            public void WhenFilePathIsEmpty_ThenThrowException()
+            {
+                Assert.Throws<ArgumentException>(() => CreateSut().CalcFileChecksum(string.Empty));
             }
         }
     }

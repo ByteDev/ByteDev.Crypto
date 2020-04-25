@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 
 namespace ByteDev.Crypto.Hashing.Algorithms
@@ -25,6 +26,23 @@ namespace ByteDev.Crypto.Hashing.Algorithms
             using (SHA256 sha256 = new SHA256Managed())
             {
                 return sha256.ComputeHash(data);
+            }
+        }
+
+        /// <summary>
+        /// Hash <paramref name="stream" />.
+        /// </summary>
+        /// <param name="stream">The stream of data to hash</param>
+        /// <returns>The hash of <paramref name="stream" />.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="stream" /> is null.</exception>
+        public byte[] Hash(Stream stream)
+        {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+
+            using (SHA256 sha256 = new SHA256Managed())
+            {
+                return sha256.ComputeHash(stream);
             }
         }
     }

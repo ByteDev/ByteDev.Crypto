@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -37,6 +38,23 @@ namespace ByteDev.Crypto.Hashing.Algorithms
             using (var sha = new HMACSHA256(Encoding.UTF8.GetBytes(_key)))
             {
                 return sha.ComputeHash(data);
+            }
+        }
+
+        /// <summary>
+        /// Hash <paramref name="stream" />.
+        /// </summary>
+        /// <param name="stream">The stream of data to hash</param>
+        /// <returns>The hash of <paramref name="stream" />.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="stream" /> is null.</exception>
+        public byte[] Hash(Stream stream)
+        {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+
+            using (var sha = new HMACSHA256(Encoding.UTF8.GetBytes(_key)))
+            {
+                return sha.ComputeHash(stream);
             }
         }
     }

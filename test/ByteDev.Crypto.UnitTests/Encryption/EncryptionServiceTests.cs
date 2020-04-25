@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace ByteDev.Crypto.UnitTests.Encryption
 {
     [TestFixture]
-    public class EncryptionServiceTest
+    public class EncryptionServiceTests
     {
         private const string ClearText = "john";
         private const string Password = "Password1";
@@ -19,7 +19,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
         }
 
         [TestFixture]
-        public class Constructor : EncryptionServiceTest
+        public class Constructor : EncryptionServiceTests
         {
             [Test]
             public void WhenKeyViIsNull_ThenThrowException()
@@ -29,7 +29,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
         }
 
         [TestFixture]
-        public class Encrypt : EncryptionServiceTest
+        public class Encrypt : EncryptionServiceTests
         {
             private IEncryptionKeyIvFactory _keyFactoryRijndael;
             private IEncryptionKeyIvFactory _keyFactoryTripleDes;
@@ -103,7 +103,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
         }
 
         [TestFixture]
-        public class Decrypt : EncryptionServiceTest
+        public class Decrypt : EncryptionServiceTests
         {
             private EncryptionService _sut;
 

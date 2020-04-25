@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A3129D4C
 		build\ByteDev.Utilities.cake = build\ByteDev.Utilities.cake
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteDev.Crypto.IntTests", "test\ByteDev.Crypto.IntTests\ByteDev.Crypto.IntTests.csproj", "{7C5D1BB8-69C0-4CA1-AAA7-F2A7C741F0A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,12 +38,17 @@ Global
 		{C3DBA785-186B-4D8A-8A5B-A8222570723F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3DBA785-186B-4D8A-8A5B-A8222570723F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3DBA785-186B-4D8A-8A5B-A8222570723F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C5D1BB8-69C0-4CA1-AAA7-F2A7C741F0A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C5D1BB8-69C0-4CA1-AAA7-F2A7C741F0A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C5D1BB8-69C0-4CA1-AAA7-F2A7C741F0A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C5D1BB8-69C0-4CA1-AAA7-F2A7C741F0A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C3DBA785-186B-4D8A-8A5B-A8222570723F} = {A029AC5E-B829-402F-B185-6910B3B8A3B7}
+		{7C5D1BB8-69C0-4CA1-AAA7-F2A7C741F0A4} = {A029AC5E-B829-402F-B185-6910B3B8A3B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {432A2F6C-8AF8-4A36-B90E-2F4A8D80C5AA}

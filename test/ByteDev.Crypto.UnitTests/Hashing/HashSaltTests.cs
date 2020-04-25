@@ -5,10 +5,10 @@ using NUnit.Framework;
 namespace ByteDev.Crypto.UnitTests.Hashing
 {
     [TestFixture]
-    public class HashSaltTest
+    public class HashSaltTests
     {
         [TestFixture]
-        public class Constructor : HashSaltTest
+        public class Constructor : HashSaltTests
         {
             [Test]
             public void WhenCreatedWithNoBytes_ThenReturnEmpty()
@@ -30,7 +30,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         }
 
         [TestFixture]
-        public class ToBase64String : HashSaltTest
+        public class ToBase64String : HashSaltTests
         {
             [Test]
             public void WhenEmptyBytes_ThenReturnEmpty()
@@ -58,7 +58,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         }
 
         [TestFixture]
-        public class ToHexString : HashSaltTest
+        public class ToHexString : HashSaltTests
         {
             [Test]
             public void WhenEmptyBytes_ThenReturnEmpty()

@@ -19,5 +19,12 @@
         /// <param name="expectedHashedPhrase">Hashed base64 phrase.</param>
         /// <returns>True if phrase and hashed phrase are equal; otherwise returns false.</returns>
         bool Verify(HashPhrase phrase, string expectedHashedPhrase);
+
+        /// <summary>
+        /// Calculates a hash checksum for a file.
+        /// </summary>
+        /// <param name="filePath">Path to file.</param>
+        /// <returns>Hash checksum of the file as base64 string.</returns>
+        string CalcFileChecksum(string filePath);
     }
 }

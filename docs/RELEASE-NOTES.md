@@ -1,5 +1,17 @@
 # Release Notes
 
+## 3.3.0 - 25 April 2020
+
+Breaking changes:
+- (None)
+
+New features:
+- Added Md5Algorithm
+- Added HashService.CalcFileChecksum
+
+Bug fixes / internal changes:
+- (None)
+
 ## 3.2.0 - 28 March 2020
 
 Breaking changes:

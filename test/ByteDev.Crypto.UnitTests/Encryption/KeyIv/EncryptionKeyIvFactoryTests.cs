@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace ByteDev.Crypto.UnitTests.Encryption.KeyIv
 {
     [TestFixture]
-    public class EncryptionKeyIvFactoryTest
+    public class EncryptionKeyIvFactoryTests
     {
         protected EncryptionKeyIvFactory CreateClassUnderTest()
         {
@@ -19,7 +19,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption.KeyIv
         }
 
         [TestFixture]
-        public class CreateKeyIv : EncryptionKeyIvFactoryTest
+        public class CreateKeyIv : EncryptionKeyIvFactoryTests
         {
             [Test]
             public void WhenSaltLessThanEightBytes_ThenThrowException()

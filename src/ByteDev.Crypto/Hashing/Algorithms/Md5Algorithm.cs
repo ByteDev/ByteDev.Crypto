@@ -5,9 +5,9 @@ using System.Security.Cryptography;
 namespace ByteDev.Crypto.Hashing.Algorithms
 {
     /// <summary>
-    /// Represents the hashing algorithm SHA512.
+    /// Represents the hashing algorithm MD5.
     /// </summary>
-    public class Sha512Algorithm : IHashAlgorithm
+    public class Md5Algorithm : IHashAlgorithm
     {
         /// <summary>
         /// Hash <paramref name="data" />.
@@ -17,15 +17,15 @@ namespace ByteDev.Crypto.Hashing.Algorithms
         /// <exception cref="T:System.ArgumentNullException"><paramref name="data" /> is null.</exception>
         public byte[] Hash(byte[] data)
         {
-            if(data == null)
+            if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            if(data.Length < 1)
+            if (data.Length < 1)
                 return new byte[0];
 
-            using (SHA512 sha512 = new SHA512Managed())
+            using (var md5 = MD5.Create())
             {
-                return sha512.ComputeHash(data);
+                return md5.ComputeHash(data);
             }
         }
 
@@ -40,9 +40,9 @@ namespace ByteDev.Crypto.Hashing.Algorithms
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
 
-            using (SHA512 sha512 = new SHA512Managed())
+            using (var md5 = MD5.Create())
             {
-                return sha512.ComputeHash(stream);
+                return md5.ComputeHash(stream);
             }
         }
     }
