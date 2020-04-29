@@ -10,15 +10,15 @@
         /// </summary>
         /// <param name="phrase">Phrase to hash.</param>
         /// <returns>Hash of <paramref name="phrase" /> as base64 string.</returns>
-        string Hash(HashPhrase phrase);
+        string Hash(ClearPhrase phrase);
 
         /// <summary>
-        /// Verify that the hash of <paramref name="phrase" /> is equal to <paramref name="expectedHashedPhrase" />.
+        /// Verify that the hash of <paramref name="phrase" /> is equal to <paramref name="expectedHash" />.
         /// </summary>
         /// <param name="phrase">Clear text phrase.</param>
-        /// <param name="expectedHashedPhrase">Hashed base64 phrase.</param>
+        /// <param name="expectedHash">Hashed base64 phrase.</param>
         /// <returns>True if phrase and hashed phrase are equal; otherwise returns false.</returns>
-        bool Verify(HashPhrase phrase, string expectedHashedPhrase);
+        bool Verify(ClearPhrase phrase, string expectedHash);
 
         /// <summary>
         /// Calculates a hash checksum for a file.

@@ -5,7 +5,7 @@ namespace ByteDev.Crypto.Hashing
     /// <summary>
     /// Represents a clear text phrase to hash.
     /// </summary>
-    public class HashPhrase
+    public class ClearPhrase
     {
         /// <summary>
         /// Clear text phrase to hash.
@@ -32,7 +32,7 @@ namespace ByteDev.Crypto.Hashing
         /// </summary>
         /// <param name="phrase">The phrase to hash.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
-        public HashPhrase(string phrase) : this(phrase, string.Empty, string.Empty)
+        public ClearPhrase(string phrase) : this(phrase, string.Empty, string.Empty)
         { 
         }
 
@@ -43,7 +43,7 @@ namespace ByteDev.Crypto.Hashing
         /// <param name="salt">Salt to apply when hashing the phrase.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="salt" /> is null.</exception>
-        public HashPhrase(string phrase, string salt) : this(phrase, salt, string.Empty)
+        public ClearPhrase(string phrase, string salt) : this(phrase, salt, string.Empty)
         {
         }
 
@@ -56,7 +56,7 @@ namespace ByteDev.Crypto.Hashing
         /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="salt" /> is null.</exception>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="pepper" /> is null.</exception>
-        public HashPhrase(string phrase, string salt, string pepper)
+        public ClearPhrase(string phrase, string salt, string pepper)
         {
             Phrase = phrase ?? throw new ArgumentNullException(nameof(phrase));
             Salt = salt ?? throw new ArgumentNullException(nameof(salt));

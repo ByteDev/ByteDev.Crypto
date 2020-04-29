@@ -5,24 +5,24 @@ using NUnit.Framework;
 namespace ByteDev.Crypto.UnitTests.Hashing
 {
     [TestFixture]
-    public class HashPhraseTests
+    public class ClearPhraseTests
     {
         [Test]
         public void WhenPhraseIsNull_ThenThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new HashPhrase(null));
+            Assert.Throws<ArgumentNullException>(() => new ClearPhrase(null));
         }
 
         [Test]
         public void WhenSaltIsNull_ThenThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new HashPhrase("phrase", null));
+            Assert.Throws<ArgumentNullException>(() => new ClearPhrase("phrase", null));
         }
 
         [Test]
         public void WhenPepperIsNull_ThenThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new HashPhrase("phrase", "salt", null));
+            Assert.Throws<ArgumentNullException>(() => new ClearPhrase("phrase", "salt", null));
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             const string salt = "salt";
             const string pepper = "pepper";
 
-            var sut = new HashPhrase(phrase, salt, pepper);
+            var sut = new ClearPhrase(phrase, salt, pepper);
 
             Assert.That(sut.Phrase, Is.EqualTo(phrase));
             Assert.That(sut.Salt, Is.EqualTo(salt));

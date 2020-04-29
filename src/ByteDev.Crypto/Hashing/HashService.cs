@@ -10,6 +10,7 @@ namespace ByteDev.Crypto.Hashing
     /// </summary>
     public class HashService : IHashService
     {
+        private readonly HashEncoding _hashEncoding;
         private readonly IHashAlgorithm _hashAlgorithm;
 
         /// <summary>
@@ -24,70 +25,88 @@ namespace ByteDev.Crypto.Hashing
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
         /// </summary>
         /// <param name="hashAlgorithm">Hashing algorithm to use when performing any hashing operation.</param>
-        public HashService(IHashAlgorithm hashAlgorithm)
+        public HashService(IHashAlgorithm hashAlgorithm) : this(hashAlgorithm, HashEncoding.Base64)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
+        /// </summary>
+        /// <param name="hashAlgorithm">Hashing algorithm to use when performing any hashing operation.</param>
+        /// <param name="hashEncoding">Expected end string encoding of the hash.</param>
+        public HashService(IHashAlgorithm hashAlgorithm, HashEncoding hashEncoding)
         {
             _hashAlgorithm = hashAlgorithm;
+            _hashEncoding = hashEncoding;
         }
-        
+
         /// <summary>
-        /// One way hashes the given phrase and returns it base64 encoded.
+        /// One way hashes the given phrase.
         /// </summary>
         /// <param name="phrase">Phrase to hash.</param>
-        /// <returns>Hash of <paramref name="phrase" /> as base64 string.</returns>
+        /// <returns>Hash of <paramref name="phrase" /> as a string.</returns>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
-        public string Hash(HashPhrase phrase)
+        public string Hash(ClearPhrase phrase)
         {
             if(phrase == null)
                 throw new ArgumentNullException(nameof(phrase));
 
-            var hash = CreateOneWayHash(phrase.Value);
+            var encoding = new UTF8Encoding();
 
-            return Convert.ToBase64String(hash);
+            byte[] bytes = encoding.GetBytes(phrase.Value);
+
+            var hash = _hashAlgorithm.Hash(bytes);
+
+            return EncodeHash(hash);
         }
-        
+
         /// <summary>
-        /// Verify that the hash of <paramref name="phrase" /> is equal to <paramref name="expectedHashedPhrase" />.
+        /// Verify that the hash of <paramref name="phrase" /> is equal to <paramref name="expectedHash" />.
         /// </summary>
         /// <param name="phrase">Clear text phrase.</param>
-        /// <param name="expectedHashedPhrase">Hashed base64 phrase.</param>
+        /// <param name="expectedHash">Hashed phrase.</param>
         /// <returns>True if phrase and hashed phrase are equal; otherwise returns false.</returns>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="phrase" /> is null.</exception>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="expectedHashedPhrase" /> is null.</exception>
-        public bool Verify(HashPhrase phrase, string expectedHashedPhrase)
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="expectedHash" /> is null.</exception>
+        public bool Verify(ClearPhrase phrase, string expectedHash)
         {
             if (phrase == null)
                 throw new ArgumentNullException(nameof(phrase));
 
-            if (expectedHashedPhrase == null)
-                throw new ArgumentNullException(nameof(expectedHashedPhrase));
+            if (expectedHash == null)
+                throw new ArgumentNullException(nameof(expectedHash));
 
             var hash = Hash(phrase);
 
-            return expectedHashedPhrase.Equals(hash, StringComparison.Ordinal);
+            return expectedHash.Equals(hash, StringComparison.Ordinal);
         }
 
         /// <summary>
         /// Calculates a hash checksum for a file.
         /// </summary>
         /// <param name="filePath">Path to file.</param>
-        /// <returns>Hash checksum of the file as base64 string.</returns>
+        /// <returns>Hash checksum of the file as string.</returns>
         public string CalcFileChecksum(string filePath)
         {
             using (var stream = File.OpenRead(filePath))
             {
                 var hash = _hashAlgorithm.Hash(stream);
 
-                return Convert.ToBase64String(hash);
+                return EncodeHash(hash);
             }
         }
 
-        private byte[] CreateOneWayHash(string phrase)
+        private string EncodeHash(byte[] hash)
         {
-            var encoding = new UTF8Encoding();
-
-            byte[] bytes = encoding.GetBytes(phrase);
-
-            return _hashAlgorithm.Hash(bytes);
+            switch (_hashEncoding)
+            {
+                case HashEncoding.Base64:
+                    return Convert.ToBase64String(hash);
+                case HashEncoding.Hex:
+                    return BitConverter.ToString(hash).Replace("-", string.Empty);
+                default:
+                    throw new InvalidOperationException($"Unhandled {nameof(HashEncoding)} value: '{_hashEncoding}'.");
+            }
         }
     }
 }

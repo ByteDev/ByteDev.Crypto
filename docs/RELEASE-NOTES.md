@@ -1,5 +1,16 @@
 # Release Notes
 
+## 4.0.0 - 29 April 2020
+
+Breaking changes:
+- HashPhrase is now ClearPhrase
+
+New features:
+- HashService can now take a HashEncoding on constructor
+
+Bug fixes:
+- (None)
+
 ## 3.3.0 - 25 April 2020
 
 Breaking changes:

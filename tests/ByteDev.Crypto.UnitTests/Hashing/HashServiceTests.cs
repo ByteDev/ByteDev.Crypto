@@ -1,6 +1,7 @@
 ﻿using System;
 using ByteDev.Common.Encoding;
 using ByteDev.Crypto.Hashing;
+using ByteDev.Crypto.Hashing.Algorithms;
 using NUnit.Framework;
 
 namespace ByteDev.Crypto.UnitTests.Hashing
@@ -8,29 +9,40 @@ namespace ByteDev.Crypto.UnitTests.Hashing
     [TestFixture]
     public class HashServiceTests
     {
-        private static HashService CreateSut()
-        {
-            return new HashService();
-        }
-        
         [TestFixture]
         public class Hash : HashServiceTests
         {
-            [Test]
-            public void WhenPhraseIsNull_ThenThrowException()
+            private static HashService CreateSut(HashEncoding hashEncoding = HashEncoding.Base64)
             {
-                Assert.Throws<ArgumentNullException>(() => Act(null, string.Empty));
+                return new HashService(new Md5Algorithm(), hashEncoding);
             }
 
             [Test]
-            public void WhenPhraseAndNoSalt_ThenReturnBase64Hash()
+            public void WhenPhraseIsNull_ThenThrowException()
+            {
+                Assert.Throws<ArgumentNullException>(() => CreateSut().Hash(null));
+            }
+
+            [Test]
+            public void WhenEncodingIsBase64_ThenReturnBase64Hash()
             {
                 const string phrase = "smith";
 
-                var result = Act(phrase, string.Empty);
+                var result = CreateSut().Hash(new ClearPhrase(phrase));
 
-                Assert.AreNotEqual(phrase, result);
+                Assert.That(phrase, Is.Not.EqualTo(result));
                 Assert.That(Base64.IsBase64Encoded(result), Is.True);
+            }
+
+            [Test]
+            public void WhenEncodingIsHex_ThenReturnHexHash()
+            {
+                const string phrase = "smith";
+
+                var result = CreateSut(HashEncoding.Hex).Hash(new ClearPhrase(phrase));
+
+                Assert.That(result, Is.Not.EqualTo(phrase));
+                Assert.That(result.IsHex(), Is.True);
             }
 
             [Test]
@@ -38,8 +50,10 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             {
                 const string phrase = "smith";
 
-                var result1 = Act(phrase, string.Empty);
-                var result2 = Act(phrase, string.Empty);
+                var sut = CreateSut();
+
+                var result1 = sut.Hash(new ClearPhrase(phrase));
+                var result2 = sut.Hash(new ClearPhrase(phrase));
 
                 Assert.That(result1, Is.EqualTo(result2));
             }
@@ -50,17 +64,12 @@ namespace ByteDev.Crypto.UnitTests.Hashing
                 const string phrase = "smith";
                 const string salt = "some salt";
 
-                var resultSalted = Act(phrase, salt);
-                var resultNotSalted = Act(phrase, string.Empty);
-
-                Assert.That(resultSalted, Is.Not.EqualTo(resultNotSalted));
-            }
-            
-            private string Act(string phrase, string salt)
-            {
                 var sut = CreateSut();
 
-                return sut.Hash(new HashPhrase(phrase, salt));
+                var resultSalted = sut.Hash(new ClearPhrase(phrase, salt));
+                var resultNotSalted = sut.Hash(new ClearPhrase(phrase));
+
+                Assert.That(resultSalted, Is.Not.EqualTo(resultNotSalted));
             }
         }
 
@@ -72,7 +81,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             [SetUp]
             public void SetUp()
             {
-                _sut = CreateSut();
+                _sut = new HashService();
             }
 
             [Test]
@@ -125,12 +134,12 @@ namespace ByteDev.Crypto.UnitTests.Hashing
 
             private string HashPhraseWithSalt(string phrase, string salt)
             {
-                return _sut.Hash(new HashPhrase(phrase, salt));
+                return _sut.Hash(new ClearPhrase(phrase, salt));
             }
 
             private bool Act(string phrase, string salt, string hashedPhrase)
             {
-                return _sut.Verify(new HashPhrase(phrase, salt), hashedPhrase);
+                return _sut.Verify(new ClearPhrase(phrase, salt), hashedPhrase);
             }
         }
 
@@ -140,13 +149,13 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             [Test]
             public void WhenFilePathIsNull_ThenThrowException()
             {
-                Assert.Throws<ArgumentNullException>(() => CreateSut().CalcFileChecksum(null));
+                Assert.Throws<ArgumentNullException>(() => new HashService().CalcFileChecksum(null));
             }
 
             [Test]
             public void WhenFilePathIsEmpty_ThenThrowException()
             {
-                Assert.Throws<ArgumentException>(() => CreateSut().CalcFileChecksum(string.Empty));
+                Assert.Throws<ArgumentException>(() => new HashService().CalcFileChecksum(string.Empty));
             }
         }
     }
