@@ -32,14 +32,14 @@ The repo can be cloned from git bash:
 
 ### Hashing
 
-Hash some clear text (returned as base 64 string) and verify a guess is equal.
+Hash some clear text (returned as base 64 encoded string) and verify a guess is equal.
 
 ```csharp
-IHashService service = new HashService();
+IHashService service = new HashService(new Md5Algorithm(), HashEncoding.Base64);
 
-string hash = service.Hash(new HashPhrase("Password1"));
+string hash = service.Hash(new ClearPhrase("Password1"));
 
-bool isLoginSuccessful = service.Verify(new HashPhrase("passwordGuess"), hash);
+bool isLoginSuccessful = service.Verify(new ClearPhrase("passwordGuess"), hash);
 ```
 
 Calculate a checksum (returned as base 64 string) for a file.
