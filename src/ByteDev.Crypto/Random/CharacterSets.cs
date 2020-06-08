@@ -21,7 +21,12 @@
         public static readonly string LowerCase = "abcdefghijklmnopqrstuvwxyz";
 
         /// <summary>
-        /// Special printable ASCII characters (excluding space).
+        /// ASCII alpha-numeric characters (A-Za-z0-9).
+        /// </summary>
+        public static readonly string AlphaNumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        /// <summary>
+        /// Special printable ASCII characters (excluding white space).
         /// </summary>
         public static readonly string AsciiSpecial = @"!""#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
     }

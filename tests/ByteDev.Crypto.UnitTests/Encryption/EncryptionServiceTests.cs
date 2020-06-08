@@ -1,8 +1,10 @@
 ﻿using System;
+using ByteDev.Base64;
 using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Encryption;
 using ByteDev.Crypto.Encryption.Algorithms;
 using ByteDev.Crypto.Encryption.KeyIv;
+using ByteDev.Strings;
 using NUnit.Framework;
 
 namespace ByteDev.Crypto.UnitTests.Encryption
@@ -148,6 +150,28 @@ namespace ByteDev.Crypto.UnitTests.Encryption
                 Assert.That(obj.Address, Is.Not.EqualTo("Somewhere"));
                 Assert.That(obj.Country, Is.EqualTo("UK"));
                 Assert.That(obj.Age, Is.EqualTo(50));
+            }
+
+            [Test]
+            public void WhenEncodingTypeBase64_ThenEncodeToBase64()
+            {
+                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+
+                _sut.EncryptProperties(obj, EncodingType.Base64);
+
+                Assert.That(obj.Name.IsBase64(), Is.True);
+                Assert.That(obj.Address.IsBase64(), Is.True);
+            }
+
+            [Test]
+            public void WhenEncodingTypeHex_ThenEncodeToHex()
+            {
+                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+
+                _sut.EncryptProperties(obj, EncodingType.Hex);
+
+                Assert.That(obj.Name.IsHex(), Is.True);
+                Assert.That(obj.Address.IsHex(), Is.True);
             }
         }
 

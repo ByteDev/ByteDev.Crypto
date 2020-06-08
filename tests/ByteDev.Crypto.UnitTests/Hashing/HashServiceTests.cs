@@ -1,8 +1,9 @@
 ﻿using System;
-using ByteDev.Common.Encoding;
+using ByteDev.Base64;
 using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Hashing;
 using ByteDev.Crypto.Hashing.Algorithms;
+using ByteDev.Strings;
 using NUnit.Framework;
 
 namespace ByteDev.Crypto.UnitTests.Hashing
@@ -32,7 +33,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
                 var result = CreateSut().Hash(new ClearPhrase(phrase));
 
                 Assert.That(phrase, Is.Not.EqualTo(result));
-                Assert.That(Base64.IsBase64Encoded(result), Is.True);
+                Assert.That(result.IsBase64(), Is.True);
             }
 
             [Test]

@@ -1,4 +1,4 @@
-﻿using ByteDev.Common.Encoding;
+﻿using ByteDev.Base64;
 using ByteDev.Crypto.Hashing;
 using NUnit.Framework;
 
@@ -45,7 +45,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             {
                 var result = Act(16).ToBase64String();
 
-                Assert.That(Base64.IsBase64Encoded(result), Is.True);
+                Assert.That(result.IsBase64(), Is.True);
             }
 
             [Test]

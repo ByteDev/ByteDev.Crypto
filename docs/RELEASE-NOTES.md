@@ -8,6 +8,7 @@ Breaking changes:
 New features:
 - Added EncryptionService.EncryptProperties
 - Added EncryptionService.DecryptProperties
+- Added CharacterSets.AlphaNumeric
 
 Bug fixes:
 - (None)

@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ByteDev.Base64" Version="1.0.1" />
     <PackageReference Include="ByteDev.Collections" Version="2.1.1" />
-    <PackageReference Include="ByteDev.Common" Version="7.0.0" />
+    <PackageReference Include="ByteDev.Strings" Version="2.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">

@@ -2,6 +2,7 @@
 using System.Linq;
 using ByteDev.Collections;
 using ByteDev.Crypto.Random;
+using ByteDev.Strings;
 using NUnit.Framework;
 
 namespace ByteDev.Crypto.UnitTests.Random
@@ -203,7 +204,7 @@ namespace ByteDev.Crypto.UnitTests.Random
                 {
                     var result = sut.GenerateString(100);
 
-                    Assert.That(result.IsDigitsOnly, Is.True);
+                    Assert.That(result.IsDigits(), Is.True);
                 }
             }
 
