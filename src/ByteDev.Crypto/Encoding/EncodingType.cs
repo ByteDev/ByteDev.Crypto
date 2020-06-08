@@ -1,10 +1,10 @@
-﻿namespace ByteDev.Crypto.Hashing
+﻿namespace ByteDev.Crypto.Encoding
 {
     /// <summary>
-    /// Represents the end encoding (from bytes) a hashed value
-    /// should have.
+    /// Represents the encoding type a hashed or encrypted value 
+    /// should use when represented as a string.
     /// </summary>
-    public enum HashEncoding
+    public enum EncodingType
     {
         /// <summary>
         /// Base 64.

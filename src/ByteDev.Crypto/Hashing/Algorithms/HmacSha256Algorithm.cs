@@ -35,7 +35,7 @@ namespace ByteDev.Crypto.Hashing.Algorithms
             if (data.Length < 1)
                 return new byte[0];
 
-            using (var sha = new HMACSHA256(Encoding.UTF8.GetBytes(_key)))
+            using (var sha = new HMACSHA256(System.Text.Encoding.UTF8.GetBytes(_key)))
             {
                 return sha.ComputeHash(data);
             }
@@ -52,7 +52,7 @@ namespace ByteDev.Crypto.Hashing.Algorithms
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
 
-            using (var sha = new HMACSHA256(Encoding.UTF8.GetBytes(_key)))
+            using (var sha = new HMACSHA256(System.Text.Encoding.UTF8.GetBytes(_key)))
             {
                 return sha.ComputeHash(stream);
             }

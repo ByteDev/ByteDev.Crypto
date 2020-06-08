@@ -1,5 +1,17 @@
 # Release Notes
 
+## 5.0.0 - 08 June 2020
+
+Breaking changes:
+- HashEncoding is now EncodingType
+
+New features:
+- Added EncryptionService.EncryptProperties
+- Added EncryptionService.DecryptProperties
+
+Bug fixes:
+- (None)
+
 ## 4.0.0 - 29 April 2020
 
 Breaking changes:

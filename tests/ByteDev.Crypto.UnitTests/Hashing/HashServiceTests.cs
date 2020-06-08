@@ -1,5 +1,6 @@
 ﻿using System;
 using ByteDev.Common.Encoding;
+using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Hashing;
 using ByteDev.Crypto.Hashing.Algorithms;
 using NUnit.Framework;
@@ -12,9 +13,9 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         [TestFixture]
         public class Hash : HashServiceTests
         {
-            private static HashService CreateSut(HashEncoding hashEncoding = HashEncoding.Base64)
+            private static HashService CreateSut(EncodingType encoding = EncodingType.Base64)
             {
-                return new HashService(new Md5Algorithm(), hashEncoding);
+                return new HashService(new Md5Algorithm(), encoding);
             }
 
             [Test]
@@ -39,7 +40,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             {
                 const string phrase = "smith";
 
-                var result = CreateSut(HashEncoding.Hex).Hash(new ClearPhrase(phrase));
+                var result = CreateSut(EncodingType.Hex).Hash(new ClearPhrase(phrase));
 
                 Assert.That(result, Is.Not.EqualTo(phrase));
                 Assert.That(result.IsHex(), Is.True);

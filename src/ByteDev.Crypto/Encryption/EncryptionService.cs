@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Encryption.Algorithms;
 using ByteDev.Crypto.Encryption.KeyIv;
 
@@ -28,7 +29,7 @@ namespace ByteDev.Crypto.Encryption
         }
 
         /// <summary>
-        /// Encrypts the <paramref name="clearText" />.
+        /// Encrypts <paramref name="clearText" />.
         /// </summary>
         /// <param name="clearText">The clear text to encrypt.</param>
         /// <returns>The encrypted <paramref name="clearText" />.</returns>
@@ -46,7 +47,7 @@ namespace ByteDev.Crypto.Encryption
         }
 
         /// <summary>
-        /// Decrypts the <paramref name="cipher" />.
+        /// Decrypts <paramref name="cipher" />.
         /// </summary>
         /// <param name="cipher">The cipher to decrypt.</param>
         /// <returns>The decrypted <paramref name="cipher" />.</returns>
@@ -61,6 +62,64 @@ namespace ByteDev.Crypto.Encryption
             var outputBytes = TransformBytes(transform, cipher);
 
             return System.Text.Encoding.Default.GetString(outputBytes);
+        }
+
+        /// <summary>
+        /// Encrypts all the public property strings with a <see cref="T:ByteDev.Crypto.Encryption.EncryptAttribute" />.
+        /// </summary>
+        /// <param name="obj">Object to encrypt.</param>
+        /// <param name="encoding">Encoding to use after encrypting.</param>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="obj" /> is null.</exception>
+        public void EncryptProperties(object obj, EncodingType encoding = EncodingType.Base64)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+
+            var encoder = new Encoder(encoding);
+
+            var properties = obj.GetType().GetPropertiesWithAttribute<EncryptAttribute>();
+
+            foreach (var property in properties)
+            {
+                if (property.PropertyType != typeof(string))
+                    continue;
+
+                byte[] cipher = Encrypt(property.GetValue(obj, null).ToString());
+
+                var text = encoder.Encode(cipher);
+
+                property.SetValue(obj, text, null);
+            }
+        }
+
+        /// <summary>
+        /// Decrypt all the public property strings with a <see cref="T:ByteDev.Crypto.Encryption.EncryptAttribute" />.
+        /// </summary>
+        /// <param name="obj">Object to decrypt.</param>
+        /// <param name="encoding">Encoding of the property strings.</param>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="obj" /> is null.</exception>
+        public void DecryptProperties(object obj, EncodingType encoding = EncodingType.Base64)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+
+            var encoder = new Encoder(encoding);
+
+            var properties = obj.GetType().GetPropertiesWithAttribute<EncryptAttribute>();
+
+            foreach (var property in properties)
+            {
+                if (property.PropertyType != typeof(string))
+                    continue;
+
+                var text = property.GetValue(obj, null).ToString();
+
+                byte[] cipher = encoder.Decode(text);
+
+                var clearText = Decrypt(cipher);
+
+                property.SetValue(obj, clearText, null);
+            }
         }
 
         private static byte[] TransformBytes(ICryptoTransform transform, byte[] bytes)

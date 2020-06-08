@@ -1,4 +1,5 @@
 ﻿using System;
+using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Encryption;
 using ByteDev.Crypto.Encryption.Algorithms;
 using ByteDev.Crypto.Encryption.KeyIv;
@@ -103,6 +104,54 @@ namespace ByteDev.Crypto.UnitTests.Encryption
         }
 
         [TestFixture]
+        public class EncryptProperties : EncryptionServiceTests
+        {
+            private EncryptionService _sut;
+
+            [SetUp]
+            public void SetUp()
+            {
+                var algo = new RijndaelAlgorithm();
+
+                var keyFactoryRijndael = new EncryptionKeyIvFactory(algo);
+
+                var keyIv = keyFactoryRijndael.Create(Password, Salt.GetBytes());
+
+                _sut = CreateSut(algo, keyIv);
+            }
+
+            [Test]
+            public void WhenObjectIsNull_ThenThrowException()
+            {
+                Assert.Throws<ArgumentNullException>(() => _sut.EncryptProperties(null));
+            }
+
+            [Test]
+            public void WhenTypeHasNoAttributes_ThenDontEncryptProperties()
+            {
+                var obj = new TestNoAttributes {Name = "John", Age = 50};
+
+                _sut.EncryptProperties(obj);
+
+                Assert.That(obj.Name, Is.EqualTo("John"));
+                Assert.That(obj.Age, Is.EqualTo(50));
+            }
+
+            [Test]
+            public void WhenTypeHasAttributes_ThenEncryptStringPropertiesWithAttribute()
+            {
+                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+
+                _sut.EncryptProperties(obj);
+
+                Assert.That(obj.Name, Is.Not.EqualTo("John"));
+                Assert.That(obj.Address, Is.Not.EqualTo("Somewhere"));
+                Assert.That(obj.Country, Is.EqualTo("UK"));
+                Assert.That(obj.Age, Is.EqualTo(50));
+            }
+        }
+
+        [TestFixture]
         public class Decrypt : EncryptionServiceTests
         {
             private EncryptionService _sut;
@@ -132,6 +181,60 @@ namespace ByteDev.Crypto.UnitTests.Encryption
                 var result = _sut.Decrypt(cipher);
 
                 Assert.That(ClearText, Is.EqualTo(result));
+            }
+        }
+
+        [TestFixture]
+        public class DecryptProperties : EncryptionServiceTests
+        {
+            private EncryptionService _sut;
+
+            [SetUp]
+            public void SetUp()
+            {
+                var algo = new RijndaelAlgorithm();
+
+                var keyFactoryRijndael = new EncryptionKeyIvFactory(algo);
+
+                var keyIv = keyFactoryRijndael.Create(Password, Salt.GetBytes());
+
+                _sut = CreateSut(algo, keyIv);
+            }
+
+            [Test]
+            public void WhenObjectIsNull_ThenThrowException()
+            {
+                Assert.Throws<ArgumentNullException>(() => _sut.DecryptProperties(null));
+            }
+
+            [Test]
+            public void WhenTypeEncryptedProperties_ThenDecryptStringPropertiesWithAttribute()
+            {
+                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+
+                _sut.EncryptProperties(obj);
+
+                _sut.DecryptProperties(obj);
+
+                Assert.That(obj.Name, Is.EqualTo("John"));
+                Assert.That(obj.Address, Is.EqualTo("Somewhere"));
+                Assert.That(obj.Country, Is.EqualTo("UK"));
+                Assert.That(obj.Age, Is.EqualTo(50));
+            }
+
+            [Test]
+            public void WhenEncodingIsHex_ThenDecryptStringPropertiesWithAttribute()
+            {
+                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+
+                _sut.EncryptProperties(obj, EncodingType.Hex);
+
+                _sut.DecryptProperties(obj, EncodingType.Hex);
+
+                Assert.That(obj.Name, Is.EqualTo("John"));
+                Assert.That(obj.Address, Is.EqualTo("Somewhere"));
+                Assert.That(obj.Country, Is.EqualTo("UK"));
+                Assert.That(obj.Age, Is.EqualTo(50));
             }
         }
     }

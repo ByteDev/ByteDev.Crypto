@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Hashing.Algorithms;
+using Encoder = ByteDev.Crypto.Encoding.Encoder;
 
 namespace ByteDev.Crypto.Hashing
 {
@@ -10,7 +12,7 @@ namespace ByteDev.Crypto.Hashing
     /// </summary>
     public class HashService : IHashService
     {
-        private readonly HashEncoding _hashEncoding;
+        private readonly Encoder _encoder;
         private readonly IHashAlgorithm _hashAlgorithm;
 
         /// <summary>
@@ -25,7 +27,7 @@ namespace ByteDev.Crypto.Hashing
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
         /// </summary>
         /// <param name="hashAlgorithm">Hashing algorithm to use when performing any hashing operation.</param>
-        public HashService(IHashAlgorithm hashAlgorithm) : this(hashAlgorithm, HashEncoding.Base64)
+        public HashService(IHashAlgorithm hashAlgorithm) : this(hashAlgorithm, EncodingType.Base64)
         {
         }
 
@@ -33,11 +35,11 @@ namespace ByteDev.Crypto.Hashing
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
         /// </summary>
         /// <param name="hashAlgorithm">Hashing algorithm to use when performing any hashing operation.</param>
-        /// <param name="hashEncoding">Expected end string encoding of the hash.</param>
-        public HashService(IHashAlgorithm hashAlgorithm, HashEncoding hashEncoding)
+        /// <param name="encoding">Expected end string encoding of the hash.</param>
+        public HashService(IHashAlgorithm hashAlgorithm, EncodingType encoding)
         {
             _hashAlgorithm = hashAlgorithm;
-            _hashEncoding = hashEncoding;
+            _encoder = new Encoder(encoding);
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace ByteDev.Crypto.Hashing
 
             var hash = _hashAlgorithm.Hash(bytes);
 
-            return EncodeHash(hash);
+            return _encoder.Encode(hash);
         }
 
         /// <summary>
@@ -92,20 +94,7 @@ namespace ByteDev.Crypto.Hashing
             {
                 var hash = _hashAlgorithm.Hash(stream);
 
-                return EncodeHash(hash);
-            }
-        }
-
-        private string EncodeHash(byte[] hash)
-        {
-            switch (_hashEncoding)
-            {
-                case HashEncoding.Base64:
-                    return Convert.ToBase64String(hash);
-                case HashEncoding.Hex:
-                    return BitConverter.ToString(hash).Replace("-", string.Empty);
-                default:
-                    throw new InvalidOperationException($"Unhandled {nameof(HashEncoding)} value: '{_hashEncoding}'.");
+                return _encoder.Encode(hash);
             }
         }
     }

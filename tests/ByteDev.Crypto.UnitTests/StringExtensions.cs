@@ -6,7 +6,7 @@ namespace ByteDev.Crypto.UnitTests
     {
         public static byte[] GetBytes(this string source)
         {
-            return Encoding.Default.GetBytes(source);
+            return System.Text.Encoding.Default.GetBytes(source);
         }
 
         public static bool IsDigitsOnly(this string source)
