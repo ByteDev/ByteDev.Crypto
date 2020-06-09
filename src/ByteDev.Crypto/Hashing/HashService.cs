@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Hashing.Algorithms;
-using Encoder = ByteDev.Crypto.Encoding.Encoder;
+using ByteDev.Encoding;
 
 namespace ByteDev.Crypto.Hashing
 {
@@ -12,7 +11,7 @@ namespace ByteDev.Crypto.Hashing
     /// </summary>
     public class HashService : IHashService
     {
-        private readonly Encoder _encoder;
+        private readonly IEncoder _encoder;
         private readonly IHashAlgorithm _hashAlgorithm;
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace ByteDev.Crypto.Hashing
         public HashService(IHashAlgorithm hashAlgorithm, EncodingType encoding)
         {
             _hashAlgorithm = hashAlgorithm;
-            _encoder = new Encoder(encoding);
+            _encoder = new EncoderFactory().Create(EncodingTypeConverter.ToEncodingLibType(encoding));
         }
 
         /// <summary>

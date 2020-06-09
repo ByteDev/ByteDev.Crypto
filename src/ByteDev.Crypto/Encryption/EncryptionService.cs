@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
-using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Encryption.Algorithms;
 using ByteDev.Crypto.Encryption.KeyIv;
+using ByteDev.Encoding;
 
 namespace ByteDev.Crypto.Encryption
 {
@@ -14,6 +14,7 @@ namespace ByteDev.Crypto.Encryption
     {
         private readonly IEncryptionAlgorithm _encryptionAlgorithm;
         private readonly EncryptionKeyIv _keyIv;
+        private readonly IEncoderFactory _encoderFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Encryption.EncryptionService" /> class.
@@ -26,6 +27,7 @@ namespace ByteDev.Crypto.Encryption
         {
             _encryptionAlgorithm = encryptionAlgorithm ?? throw new ArgumentNullException(nameof(encryptionAlgorithm));
             _keyIv = keyIv ?? throw new ArgumentNullException(nameof(keyIv));
+            _encoderFactory = new EncoderFactory();
         }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace ByteDev.Crypto.Encryption
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
 
-            var encoder = new Encoder(encoding);
+            var encoder = _encoderFactory.Create(EncodingTypeConverter.ToEncodingLibType(encoding));
 
             var properties = obj.GetType().GetPropertiesWithAttribute<EncryptAttribute>();
 
@@ -103,7 +105,7 @@ namespace ByteDev.Crypto.Encryption
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
 
-            var encoder = new Encoder(encoding);
+            var encoder = _encoderFactory.Create(EncodingTypeConverter.ToEncodingLibType(encoding));
 
             var properties = obj.GetType().GetPropertiesWithAttribute<EncryptAttribute>();
 
@@ -114,7 +116,7 @@ namespace ByteDev.Crypto.Encryption
 
                 var text = property.GetValue(obj, null).ToString();
 
-                byte[] cipher = encoder.Decode(text);
+                byte[] cipher = encoder.DecodeToBytes(text);
 
                 var clearText = Decrypt(cipher);
 
@@ -131,6 +133,7 @@ namespace ByteDev.Crypto.Encryption
                     cryptoStream.Write(bytes, 0, bytes.Length);
                     cryptoStream.FlushFinalBlock();
                 }
+
                 return outputStream.ToArray();
             }
         }

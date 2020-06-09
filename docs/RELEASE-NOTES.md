@@ -1,5 +1,16 @@
 # Release Notes
 
+## 5.0.1 - ?? June 2020
+
+Breaking changes:
+- (None)
+
+New features:
+- (None)
+
+Bug fixes:
+- Removed encoding classes; now using ByteDev.Encoding package
+
 ## 5.0.0 - 08 June 2020
 
 Breaking changes:

@@ -9,5 +9,9 @@
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ByteDev.Encoding" Version="1.0.0" />
+  </ItemGroup>
   
 </Project>

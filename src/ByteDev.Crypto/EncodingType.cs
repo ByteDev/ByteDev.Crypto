@@ -1,4 +1,4 @@
-﻿namespace ByteDev.Crypto.Encoding
+﻿namespace ByteDev.Crypto
 {
     /// <summary>
     /// Represents the encoding type a hashed or encrypted value 

@@ -1,6 +1,5 @@
 ﻿using System;
 using ByteDev.Base64;
-using ByteDev.Crypto.Encoding;
 using ByteDev.Crypto.Hashing;
 using ByteDev.Crypto.Hashing.Algorithms;
 using ByteDev.Strings;
