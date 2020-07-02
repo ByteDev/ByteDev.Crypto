@@ -1,6 +1,6 @@
 # Release Notes
 
-## 5.0.1 - ?? June 2020
+## 5.0.1 - 02 July 2020
 
 Breaking changes:
 - (None)

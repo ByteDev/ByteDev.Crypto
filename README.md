@@ -66,13 +66,13 @@ string checksum = service.CalcFileChecksum(@"C:\somefile.txt");
 
 Use namespace `ByteDev.Crypto.Encryption`.
 
-EncryptionService class methods:
+`EncryptionService` class methods:
 - Encrypt
 - Decrypt
 - EncryptProperties
 - DecryptProperties
 
-Create the `EncryptionService` class:
+Initialize `EncryptionService`:
 
 ```csharp
 IEncryptionAlgorithm algo = new RijndaelAlgorithm();
@@ -93,7 +93,7 @@ string clearText = service.Decrypt(cipher);
 // clearText == "mySecret"
 ```
 
-Once a byte array cipher has been created the `ByteDev.Crypto.Encoding.Encoder` class can be used for any required encoding:
+Once a byte array cipher has been created the `ByteDev.Encoding.Encoder` class can be used for any required encoding:
 
 ```csharp
 byte[] cipher = service.Encrypt("mySecret", keyIv);
@@ -114,11 +114,11 @@ public class MyInfo
 
 var info = new MyInfo { Secrets = "Some secrets" };
 
-services.EncryptProperties(info, EncodingType.Hex);
+service.EncryptProperties(info, EncodingType.Hex);
 
 // info.Secrets is now encrypted and encoded as hex
 
-services.DecryptProperties(info, EncodingType.Hex);
+service.DecryptProperties(info, EncodingType.Hex);
 
 // info.Secrets == "Some secrets"
 ```
