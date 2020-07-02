@@ -68,7 +68,7 @@ Task("UnitTests")
 	});
 
 Task("IntegrationTests")
-    .IsDependentOn("Build")
+    .IsDependentOn("UnitTests")
     .Does(() =>
 	{
 		var settings = new DotNetCoreTestSettings()
