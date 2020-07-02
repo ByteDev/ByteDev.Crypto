@@ -17,9 +17,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ByteDev.Crypto.Shared.Packa
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		test\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.projitems*{4b83f9d6-5906-4232-a506-c1f54436a7b0}*SharedItemsImports = 5
-		test\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.projitems*{9b80b626-aa3f-4d37-ab7f-b69d2f5e639f}*SharedItemsImports = 5
-		test\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.projitems*{a8aaf776-c8a2-4944-b3ed-10f0426c8474}*SharedItemsImports = 13
+		tests\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.projitems*{4b83f9d6-5906-4232-a506-c1f54436a7b0}*SharedItemsImports = 5
+		tests\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.projitems*{9b80b626-aa3f-4d37-ab7f-b69d2f5e639f}*SharedItemsImports = 5
+		tests\ByteDev.Crypto.Shared.PackageTests\ByteDev.Crypto.Shared.PackageTests.projitems*{a8aaf776-c8a2-4944-b3ed-10f0426c8474}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
