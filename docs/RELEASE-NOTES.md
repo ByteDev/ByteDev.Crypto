@@ -1,5 +1,16 @@
 # Release Notes
 
+## 5.0.2 - 02 July 2020
+
+Breaking changes:
+- (None)
+
+New features:
+- (None)
+
+Bug fixes:
+- Added license and project URL as part of package
+
 ## 5.0.1 - 02 July 2020
 
 Breaking changes:
