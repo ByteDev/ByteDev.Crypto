@@ -22,18 +22,14 @@ Releases follow semantic versioning.
 
 Full details of the release notes can be viewed on [GitHub](https://github.com/ByteDev/ByteDev.Crypto/blob/master/docs/RELEASE-NOTES.md).
 
-## Code
-
-The repo can be cloned from git bash:
-
-`git clone https://github.com/ByteDev/ByteDev.Crypto`
-
 ## Usage
 
 The library's main classes:
 - HashingService
 - EncryptionService
 - CryptoRandom
+
+---
 
 ### Hashing
 
@@ -61,6 +57,8 @@ IHashService service = new HashService(new Md5Algorithm(), EncodingType.Hex);
 
 string checksum = service.CalcFileChecksum(@"C:\somefile.txt");
 ```
+
+---
 
 ### Encryption
 
@@ -122,6 +120,8 @@ service.DecryptProperties(info, EncodingType.Hex);
 
 // info.Secrets == "Some secrets"
 ```
+
+---
 
 ### Random
 
