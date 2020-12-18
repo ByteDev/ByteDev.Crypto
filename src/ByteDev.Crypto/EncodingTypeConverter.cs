@@ -12,6 +12,8 @@ namespace ByteDev.Crypto
                     return Encoding.EncodingType.Base64;
                 case EncodingType.Hex:
                     return Encoding.EncodingType.Hex;
+                case EncodingType.Base32:
+                    return Encoding.EncodingType.Base32;
                 default:
                     throw new InvalidOperationException($"Unhandled Crypto encoding type: {encodingType}.");
             }

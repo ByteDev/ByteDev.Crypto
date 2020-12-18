@@ -10,12 +10,12 @@
     <description>Provides simple cryptographic related classes for hashing/verifying data, encrypting/decrypting data and creating random data in .NET.</description>
     <copyright>Copyright 2019</copyright>
     <tags>cryptography crypto hash encrypt decrypt checksum random number character file</tags>
-	<projectUrl>https://github.com/ByteDev/ByteDev.Crypto</projectUrl>
+    <projectUrl>https://github.com/ByteDev/ByteDev.Crypto</projectUrl>
     <icon>images\icon.png</icon>
-	<license type="file">LICENSE</license>
+    <license type="file">LICENSE</license>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="ByteDev.Encoding" version="1.0.0" />
+        <dependency id="ByteDev.Encoding" version="1.1.0" />
       </group>
     </dependencies>
   </metadata>
@@ -23,6 +23,6 @@
     <file src="..\src\ByteDev.Crypto\bin\Release\netstandard2.0\ByteDev.Crypto.dll" target="lib\netstandard2.0" />
     <file src="..\src\ByteDev.Crypto\bin\Release\netstandard2.0\ByteDev.Crypto.xml" target="lib\netstandard2.0" />
     <file src="..\images\icon.png" target="images\" />
-	<file src="..\LICENSE*" target="" />
+    <file src="..\LICENSE*" target="" />
   </files>
 </package>

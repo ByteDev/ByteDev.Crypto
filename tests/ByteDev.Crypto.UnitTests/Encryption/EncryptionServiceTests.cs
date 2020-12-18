@@ -1,9 +1,10 @@
 ﻿using System;
-using ByteDev.Base64;
 using ByteDev.Crypto.Encryption;
 using ByteDev.Crypto.Encryption.Algorithms;
 using ByteDev.Crypto.Encryption.KeyIv;
-using ByteDev.Strings;
+using ByteDev.Encoding.Base32;
+using ByteDev.Encoding.Base64;
+using ByteDev.Encoding.Hex;
 using NUnit.Framework;
 
 namespace ByteDev.Crypto.UnitTests.Encryption
@@ -172,6 +173,17 @@ namespace ByteDev.Crypto.UnitTests.Encryption
                 Assert.That(obj.Name.IsHex(), Is.True);
                 Assert.That(obj.Address.IsHex(), Is.True);
             }
+
+            [Test]
+            public void WhenEncodingTypeBase32_ThenEncodeToBase32()
+            {
+                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+
+                _sut.EncryptProperties(obj, EncodingType.Base32);
+
+                Assert.That(obj.Name.IsBase32(), Is.True);
+                Assert.That(obj.Address.IsBase32(), Is.True);
+            }
         }
 
         [TestFixture]
@@ -231,7 +243,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             }
 
             [Test]
-            public void WhenTypeEncryptedProperties_ThenDecryptStringPropertiesWithAttribute()
+            public void WhenEncodingIsBase64_ThenDecryptStringPropertiesWithAttribute()
             {
                 var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
 
@@ -250,9 +262,9 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             {
                 var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
 
-                _sut.EncryptProperties(obj, EncodingType.Hex);
+                _sut.EncryptProperties(obj, EncodingType.Base32);
 
-                _sut.DecryptProperties(obj, EncodingType.Hex);
+                _sut.DecryptProperties(obj, EncodingType.Base32);
 
                 Assert.That(obj.Name, Is.EqualTo("John"));
                 Assert.That(obj.Address, Is.EqualTo("Somewhere"));

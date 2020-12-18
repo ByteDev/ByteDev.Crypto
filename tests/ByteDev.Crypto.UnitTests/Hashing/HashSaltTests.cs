@@ -1,5 +1,5 @@
-﻿using ByteDev.Base64;
-using ByteDev.Crypto.Hashing;
+﻿using ByteDev.Crypto.Hashing;
+using ByteDev.Encoding.Base64;
 using NUnit.Framework;
 
 namespace ByteDev.Crypto.UnitTests.Hashing

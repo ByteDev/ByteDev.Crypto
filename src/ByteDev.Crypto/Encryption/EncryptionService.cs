@@ -70,7 +70,7 @@ namespace ByteDev.Crypto.Encryption
         /// Encrypts all the public property strings with a <see cref="T:ByteDev.Crypto.Encryption.EncryptAttribute" />.
         /// </summary>
         /// <param name="obj">Object to encrypt.</param>
-        /// <param name="encoding">Encoding to use after encrypting.</param>
+        /// <param name="encoding">Encoding to use after encrypting. Base64 is the default.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="obj" /> is null.</exception>
         public void EncryptProperties(object obj, EncodingType encoding = EncodingType.Base64)
         {
@@ -98,7 +98,7 @@ namespace ByteDev.Crypto.Encryption
         /// Decrypt all the public property strings with a <see cref="T:ByteDev.Crypto.Encryption.EncryptAttribute" />.
         /// </summary>
         /// <param name="obj">Object to decrypt.</param>
-        /// <param name="encoding">Encoding of the property strings.</param>
+        /// <param name="encoding">Encoding of the property strings. Base64 is the default.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="obj" /> is null.</exception>
         public void DecryptProperties(object obj, EncodingType encoding = EncodingType.Base64)
         {

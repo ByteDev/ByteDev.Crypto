@@ -1,5 +1,16 @@
 # Release Notes
 
+## 5.1.0 - ?
+
+Breaking changes:
+- (None)
+
+New features:
+- Added Base32 encoding support.
+
+Bug fixes / internal changes:
+- (None)
+
 ## 5.0.2 - 02 July 2020
 
 Breaking changes:
@@ -9,7 +20,7 @@ New features:
 - (None)
 
 Bug fixes:
-- Added license and project URL as part of package
+- Added license and project URL as part of package.
 
 ## 5.0.1 - 02 July 2020
 
@@ -20,17 +31,17 @@ New features:
 - (None)
 
 Bug fixes:
-- Removed encoding classes; now using ByteDev.Encoding package
+- Removed encoding classes; now using `ByteDev.Encoding` package.
 
 ## 5.0.0 - 08 June 2020
 
 Breaking changes:
-- HashEncoding is now EncodingType
+- Renamed `HashEncoding` to `EncodingType`.
 
 New features:
-- Added EncryptionService.EncryptProperties
-- Added EncryptionService.DecryptProperties
-- Added CharacterSets.AlphaNumeric
+- Added `EncryptionService.EncryptProperties`.
+- Added `EncryptionService.DecryptProperties`.
+- Added `CharacterSets.AlphaNumeric`.
 
 Bug fixes:
 - (None)
@@ -38,10 +49,10 @@ Bug fixes:
 ## 4.0.0 - 29 April 2020
 
 Breaking changes:
-- HashPhrase is now ClearPhrase
+- Renamed `HashPhrase` to `ClearPhrase`.
 
 New features:
-- HashService can now take a HashEncoding on constructor
+- `HashService` can now take a `HashEncoding` on constructor.
 
 Bug fixes:
 - (None)
@@ -52,8 +63,8 @@ Breaking changes:
 - (None)
 
 New features:
-- Added Md5Algorithm
-- Added HashService.CalcFileChecksum
+- Added `Md5Algorithm`.
+- Added `HashService.CalcFileChecksum`.
 
 Bug fixes / internal changes:
 - (None)
@@ -64,7 +75,7 @@ Breaking changes:
 - (None)
 
 New features:
-- Added CryptoRandom.GenerateArray() overload
+- Added `CryptoRandom.GenerateArray` overload.
 
 Bug fixes / internal changes:
 - (None)
@@ -75,8 +86,8 @@ Breaking changes:
 - (None)
 
 New features:
-- Added CharacterSets.AsciiSpecial
-- Added CryptoRandom.GenerateString() overload
+- Added `CharacterSets.AsciiSpecial`.
+- Added `CryptoRandom.GenerateString` overload.
 
 Bug fixes / internal changes:
 - (None)
@@ -90,4 +101,4 @@ New features:
 - (None)
 
 Bug fixes / internal changes:
-- Fixed .NET Standard package dependency
+- Fixed .NET Standard package dependency.

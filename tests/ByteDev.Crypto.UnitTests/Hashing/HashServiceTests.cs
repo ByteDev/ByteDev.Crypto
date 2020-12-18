@@ -1,8 +1,9 @@
 ﻿using System;
-using ByteDev.Base64;
 using ByteDev.Crypto.Hashing;
 using ByteDev.Crypto.Hashing.Algorithms;
-using ByteDev.Strings;
+using ByteDev.Encoding.Base32;
+using ByteDev.Encoding.Base64;
+using ByteDev.Encoding.Hex;
 using NUnit.Framework;
 
 namespace ByteDev.Crypto.UnitTests.Hashing
@@ -44,6 +45,17 @@ namespace ByteDev.Crypto.UnitTests.Hashing
 
                 Assert.That(result, Is.Not.EqualTo(phrase));
                 Assert.That(result.IsHex(), Is.True);
+            }
+
+            [Test]
+            public void WhenEncodingIsBase32_ThenReturnBase32Hash()
+            {
+                const string phrase = "smith";
+
+                var result = CreateSut(EncodingType.Base32).Hash(new ClearPhrase(phrase));
+
+                Assert.That(result, Is.Not.EqualTo(phrase));
+                Assert.That(result.IsBase32(), Is.True);
             }
 
             [Test]
