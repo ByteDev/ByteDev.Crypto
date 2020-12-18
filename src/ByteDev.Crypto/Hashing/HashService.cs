@@ -7,7 +7,7 @@ using ByteDev.Encoding;
 namespace ByteDev.Crypto.Hashing
 {
     /// <summary>
-    /// Represents a service for hashing and verifying phrases.
+    /// Represents a service for performing hashing operations.
     /// </summary>
     public class HashService : IHashService
     {
@@ -42,7 +42,7 @@ namespace ByteDev.Crypto.Hashing
         }
 
         /// <summary>
-        /// One way hashes the given phrase.
+        /// Hashes the given phrase.
         /// </summary>
         /// <param name="phrase">Phrase to hash.</param>
         /// <returns>Hash of <paramref name="phrase" /> as a string.</returns>
@@ -87,11 +87,46 @@ namespace ByteDev.Crypto.Hashing
         /// </summary>
         /// <param name="filePath">Path to file.</param>
         /// <returns>Hash checksum of the file as string.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="filePath" /> is null.</exception>
+        /// <exception cref="T:System.ArgumentException"><paramref name="filePath" /> is empty.</exception>
+        /// <exception cref="T:System.IO.FileNotFoundException">File is not found.</exception>
         public string CalcFileChecksum(string filePath)
         {
             using (var stream = File.OpenRead(filePath))
             {
                 var hash = _hashAlgorithm.Hash(stream);
+
+                return _encoder.Encode(hash);
+            }
+        }
+
+        /// <summary>
+        /// Calculates a hash checksum for a file.
+        /// </summary>
+        /// <param name="filePath">Path to file.</param>
+        /// <param name="bufferSize">The number of bytes from the beginning of the file to create the checksum from.</param>
+        /// <returns>Hash checksum of the file as string.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="filePath" /> is null.</exception>
+        /// <exception cref="T:System.ArgumentException"><paramref name="filePath" /> is empty.</exception>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="bufferSize" /> must be greater than zero.</exception>
+        /// <exception cref="T:System.IO.FileNotFoundException">File is not found.</exception>
+        public string CalcFileChecksum(string filePath, int bufferSize)
+        {
+            if (bufferSize < 1)
+                throw new ArgumentOutOfRangeException(nameof(bufferSize), "Buffer size must be greater than zero.");
+
+            var fileSize = new FileInfo(filePath).Length;
+
+            if (bufferSize > fileSize)
+                return CalcFileChecksum(filePath);
+
+            using (var stream = File.OpenRead(filePath))
+            {
+                byte[] buffer = new byte[bufferSize];
+
+                stream.Read(buffer, 0, bufferSize);
+
+                var hash = _hashAlgorithm.Hash(buffer);
 
                 return _encoder.Encode(hash);
             }

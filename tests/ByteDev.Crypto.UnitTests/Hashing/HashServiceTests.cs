@@ -171,5 +171,27 @@ namespace ByteDev.Crypto.UnitTests.Hashing
                 Assert.Throws<ArgumentException>(() => new HashService().CalcFileChecksum(string.Empty));
             }
         }
+
+        [TestFixture]
+        public class CalcFileChecksum_WithBuffer : HashServiceTests
+        {
+            [Test]
+            public void WhenFilePathIsNull_ThenThrowException()
+            {
+                Assert.Throws<ArgumentNullException>(() => new HashService().CalcFileChecksum(null, 1));
+            }
+
+            [Test]
+            public void WhenFilePathIsEmpty_ThenThrowException()
+            {
+                Assert.Throws<ArgumentException>(() => new HashService().CalcFileChecksum(string.Empty, 1));
+            }
+
+            [Test]
+            public void WhenBufferSpecifiedAsLessThanOne_ThenThrowException()
+            {
+                Assert.Throws<ArgumentOutOfRangeException>(() => new HashService().CalcFileChecksum(@"C:\somefile", 0));
+            }
+        }
     }
 }

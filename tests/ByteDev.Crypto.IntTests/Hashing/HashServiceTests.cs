@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using ByteDev.Crypto.Hashing;
 using ByteDev.Crypto.Hashing.Algorithms;
@@ -10,20 +9,22 @@ namespace ByteDev.Crypto.IntTests.Hashing
     [TestFixture]
     public class HashServiceTests
     {
-        [TestFixture]
-        public class CalcFileChecksum
+        private const string TestFile1 = @"Hashing\TestFile1.txt";
+        private const string TestFile2 = @"Hashing\TestFile2.txt";
+
+        private const int TestFile1Size = 23;    // in bytes
+
+        private HashService _sut;
+
+        [SetUp]
+        public void SetUp()
         {
-            private const string TestFile1 = @"Hashing\TestFile1.txt";
-            private const string TestFile2 = @"Hashing\TestFile2.txt";
+            _sut = new HashService(new Md5Algorithm());
+        }
 
-            private HashService _sut;
-
-            [SetUp]
-            public void SetUp()
-            {
-                _sut = new HashService(new Md5Algorithm());
-            }
-
+        [TestFixture]
+        public class CalcFileChecksum : HashServiceTests
+        {
             [Test]
             public void WhenFileDoesNotExist_ThenThrowException()
             {
@@ -42,41 +43,49 @@ namespace ByteDev.Crypto.IntTests.Hashing
             public void WhenFileContentsAreEqual_ThenReturnsEqualChecksum()
             {
                 var result1 = _sut.CalcFileChecksum(TestFile1);
-                var result2 = _sut.CalcFileChecksum(TestFile2);
+                var result2 = _sut.CalcFileChecksum(TestFile1);
+
+                Assert.That(result1, Is.EqualTo(result2));
+            }
+        }
+
+        [TestFixture]
+        public class CalcFileChecksum_WithBuffer : HashServiceTests
+        {
+            [Test]
+            public void WhenFileDoesNotExist_ThenThrowException()
+            {
+                Assert.Throws<FileNotFoundException>(() => _sut.CalcFileChecksum(@"C:\thisdoesnotexist.txt", 1));
+            }
+
+            [TestCase(1)]
+            [TestCase(2)]
+            [TestCase(5)]
+            [TestCase(12)]
+            public void WhenBufferGreaterThanZero_ThenCheckOnlyThatNumberOfBytes(int size)
+            {
+                var result1 = _sut.CalcFileChecksum(TestFile1, size);
+                var result2 = _sut.CalcFileChecksum(TestFile2, size);
 
                 Assert.That(result1, Is.EqualTo(result2));
             }
 
             [Test]
-            [Ignore("Takes a minute to run")]
-            public void WhenLargeFile_ThenTimeAllAlgos()
+            public void WhenBufferSameSizeAsFileSize_ThenReturnEqualCheckSum()
             {
-                TimeOperation(new Sha1Algorithm(), "SHA1");
-                TimeOperation(new Md5Algorithm(), "MD5");
-                TimeOperation(new Sha512Algorithm(), "SHA512");
-                TimeOperation(new Sha256Algorithm(), "SHA256");
-                TimeOperation(new HmacSha256Algorithm("someKey"), "HMACSHA256");
+                var result1 = _sut.CalcFileChecksum(TestFile1);
+                var result2 = _sut.CalcFileChecksum(TestFile1, TestFile1Size);
 
-                /*
-                // File: 4.6GB
-                SHA1: 00:00:10.4115546
-                MD5: 00:00:11.0690976
-                SHA512: 00:00:14.1424741
-                SHA256: 00:00:21.6134517
-                HMACSHA256: 00:00:21.5468394
-                */
+                Assert.That(result1, Is.EqualTo(result2));
             }
 
-            private static void TimeOperation(IHashAlgorithm algo, string messagePrefix)
+            [Test]
+            public void WhenBufferGreaterThanFileSize_ThenReturnEqualCheckSum()
             {
-                const string bigFile = @"C:\Video\1.mkv";    // 4.6GB
+                var result1 = _sut.CalcFileChecksum(TestFile1);
+                var result2 = _sut.CalcFileChecksum(TestFile1, TestFile1Size + 2);
 
-                var timer = new Stopwatch();
-                timer.Start();
-                new HashService(algo).CalcFileChecksum(bigFile);
-                timer.Stop();
-
-                Console.WriteLine($"{messagePrefix}: " + timer.Elapsed);
+                Assert.That(result1, Is.EqualTo(result2));   
             }
         }
     }

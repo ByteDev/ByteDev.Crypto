@@ -1,12 +1,13 @@
 # Release Notes
 
-## 5.1.0 - ?
+## 5.1.0 - 18 December 2020
 
 Breaking changes:
 - (None)
 
 New features:
 - Added Base32 encoding support.
+- Added `CalcFileChecksum` overload that takes a buffer size.
 
 Bug fixes / internal changes:
 - (None)
