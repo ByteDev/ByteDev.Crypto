@@ -1,5 +1,16 @@
 # Release Notes
 
+## 5.1.1 - 18 January 2021
+
+Breaking changes:
+- (None)
+
+New features:
+- (None)
+
+Bug fixes / internal changes:
+- Fixed bug in `EncryptionService.EncryptProperties` and `DecryptProperties` methods to handle properties with null or empty.
+
 ## 5.1.0 - 18 December 2020
 
 Breaking changes:

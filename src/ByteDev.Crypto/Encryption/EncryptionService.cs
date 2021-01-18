@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using ByteDev.Crypto.Encryption.Algorithms;
 using ByteDev.Crypto.Encryption.KeyIv;
+using ByteDev.Crypto.Reflection;
 using ByteDev.Encoding;
 
 namespace ByteDev.Crypto.Encryption
@@ -67,7 +68,8 @@ namespace ByteDev.Crypto.Encryption
         }
 
         /// <summary>
-        /// Encrypts all the public property strings with a <see cref="T:ByteDev.Crypto.Encryption.EncryptAttribute" />.
+        /// Encrypts all the public property strings with a <see cref="T:ByteDev.Crypto.Encryption.EncryptAttribute" />
+        /// that have a non-null or empty value.
         /// </summary>
         /// <param name="obj">Object to encrypt.</param>
         /// <param name="encoding">Encoding to use after encrypting. Base64 is the default.</param>
@@ -79,14 +81,16 @@ namespace ByteDev.Crypto.Encryption
 
             var encoder = _encoderFactory.Create(EncodingTypeConverter.ToEncodingLibType(encoding));
 
-            var properties = obj.GetType().GetPropertiesWithAttribute<EncryptAttribute>();
+            var properties = obj.GetType().GetEncryptableProperties();
 
             foreach (var property in properties)
             {
-                if (property.PropertyType != typeof(string))
+                var clearText = property.GetValue(obj)?.ToString();
+
+                if (string.IsNullOrEmpty(clearText))
                     continue;
 
-                byte[] cipher = Encrypt(property.GetValue(obj, null).ToString());
+                byte[] cipher = Encrypt(clearText);
 
                 var text = encoder.Encode(cipher);
 
@@ -107,20 +111,20 @@ namespace ByteDev.Crypto.Encryption
 
             var encoder = _encoderFactory.Create(EncodingTypeConverter.ToEncodingLibType(encoding));
 
-            var properties = obj.GetType().GetPropertiesWithAttribute<EncryptAttribute>();
+            var properties = obj.GetType().GetEncryptableProperties();
 
             foreach (var property in properties)
             {
-                if (property.PropertyType != typeof(string))
+                var cipherText = property.GetValue(obj)?.ToString();
+
+                if (string.IsNullOrEmpty(cipherText))
                     continue;
 
-                var text = property.GetValue(obj, null).ToString();
-
-                byte[] cipher = encoder.DecodeToBytes(text);
+                byte[] cipher = encoder.DecodeToBytes(cipherText);
 
                 var clearText = Decrypt(cipher);
 
-                property.SetValue(obj, clearText, null);
+                property.SetValue(obj, clearText);
             }
         }
 

@@ -139,6 +139,17 @@ namespace ByteDev.Crypto.UnitTests.Encryption
                 Assert.That(obj.Age, Is.EqualTo(50));
             }
 
+            [TestCase(null)]
+            [TestCase("")]
+            public void WhenStringPropertyWithAttributeIsNullOrEmpty_ThenDontEncrypt(string value)
+            {
+                var obj = new TestHasAttributes {Name = value, Address = "Somewhere", Age = 50, Country = "UK"};
+
+                _sut.EncryptProperties(obj);
+
+                Assert.That(obj.Name, Is.EqualTo(value));
+            }
+
             [Test]
             public void WhenTypeHasAttributes_ThenEncryptStringPropertiesWithAttribute()
             {
@@ -148,6 +159,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
 
                 Assert.That(obj.Name, Is.Not.EqualTo("John"));
                 Assert.That(obj.Address, Is.Not.EqualTo("Somewhere"));
+
                 Assert.That(obj.Country, Is.EqualTo("UK"));
                 Assert.That(obj.Age, Is.EqualTo(50));
             }
@@ -240,6 +252,21 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             public void WhenObjectIsNull_ThenThrowException()
             {
                 Assert.Throws<ArgumentNullException>(() => _sut.DecryptProperties(null));
+            }
+
+            [TestCase(null)]
+            [TestCase("")]
+            public void WhenPropertyWithAttributeIsNullOrEmpty_ThenDoNotDecrypt(string value)
+            {
+                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+
+                _sut.EncryptProperties(obj);
+
+                obj.Name = value;
+
+                _sut.DecryptProperties(obj);
+
+                Assert.That(obj.Name, Is.EqualTo(value));
             }
 
             [Test]
