@@ -9,13 +9,11 @@ namespace ByteDev.Crypto.Encryption
     public static class ObjectExtensions
     {
         /// <summary>
-        /// Indicates if the object has sensitive properties set.
-        /// In other words the object has any public string properties with a
-        /// <typeparamref name="ByteDev.Crypto.Encryption.EncryptAttribute" /> and their
-        /// value set to something other than null or empty.
+        /// Indicates whether the object contains sensitive data and should be encrypted or not
+        /// using the EncryptProperties method.
         /// </summary>
         /// <param name="source">Object to check.</param>
-        /// <returns>True the object contains sensitive info set; otherwise false.</returns>
+        /// <returns>True the object contains sensitive data; otherwise false.</returns>
         public static bool IsSensitive(this object source)
         {
             if (source == null)
