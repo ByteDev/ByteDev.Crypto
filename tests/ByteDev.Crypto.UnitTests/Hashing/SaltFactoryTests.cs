@@ -12,7 +12,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         }
     
         [Test]
-        public void WhenStrengthIsZero_ThenCreateEmpty()
+        public void WhenStrengthIsZero_ThenReturnEmpty()
         {
             var result = Act(0);
 
@@ -20,7 +20,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         }
 
         [Test]
-        public void WhenStrengthIsMinusOne_ThenCreateEmpty()
+        public void WhenStrengthIsMinus_ThenReturnEmpty()
         {
             var result = Act(-1);
 
@@ -38,7 +38,7 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             Assert.That(result1, Is.Not.EqualTo(result2));
         }
 
-        private HashSalt Act(int saltLength)
+        private static HashSalt Act(int saltLength)
         {
             var sut = CreateSut();
 

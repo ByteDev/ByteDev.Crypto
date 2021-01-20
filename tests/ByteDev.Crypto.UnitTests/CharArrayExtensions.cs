@@ -6,7 +6,7 @@
         {
             foreach (char c in source)
             {
-                if (c < '0' || c > '9')
+                if (!char.IsDigit(c))
                     return false;
             }
 

@@ -10,9 +10,22 @@ namespace ByteDev.Crypto.UnitTests.Encryption
         [Encrypt]
         public string Address { get; set; }
 
-        public string Country { get; set; }
-
+        // Will be ignored cos it is not string
         [Encrypt]
         public int Age { get; set; }
+
+        // Will be ignored cos it does not have EncryptAttribute
+        public string Country { get; set; }
+
+        internal static TestHasAttributes Create()
+        {
+            return new TestHasAttributes
+            {
+                Name = "John", 
+                Address = "Somewhere", 
+                Age = 50, 
+                Country = "UK"
+            };
+        }
     }
 }

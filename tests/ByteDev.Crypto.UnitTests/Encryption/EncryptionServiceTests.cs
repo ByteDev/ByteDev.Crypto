@@ -27,7 +27,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [Test]
             public void WhenKeyViIsNull_ThenThrowException()
             {
-                Assert.Throws<ArgumentNullException>(() => new EncryptionService(new RijndaelAlgorithm(), null));
+                Assert.Throws<ArgumentNullException>(() => _ = new EncryptionService(new RijndaelAlgorithm(), null));
             }
         }
 
@@ -131,7 +131,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [Test]
             public void WhenTypeHasNoAttributes_ThenDontEncryptProperties()
             {
-                var obj = new TestNoAttributes {Name = "John", Age = 50};
+                var obj = TestNoAttributes.Create();
 
                 _sut.EncryptProperties(obj);
 
@@ -143,7 +143,9 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [TestCase("")]
             public void WhenStringPropertyWithAttributeIsNullOrEmpty_ThenDontEncrypt(string value)
             {
-                var obj = new TestHasAttributes {Name = value, Address = "Somewhere", Age = 50, Country = "UK"};
+                var obj = TestHasAttributes.Create();
+
+                obj.Name = value;
 
                 _sut.EncryptProperties(obj);
 
@@ -153,7 +155,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [Test]
             public void WhenTypeHasAttributes_ThenEncryptStringPropertiesWithAttribute()
             {
-                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+                var obj = TestHasAttributes.Create();
 
                 _sut.EncryptProperties(obj);
 
@@ -167,7 +169,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [Test]
             public void WhenEncodingTypeBase64_ThenEncodeToBase64()
             {
-                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+                var obj = TestHasAttributes.Create();
 
                 _sut.EncryptProperties(obj, EncodingType.Base64);
 
@@ -178,7 +180,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [Test]
             public void WhenEncodingTypeHex_ThenEncodeToHex()
             {
-                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+                var obj = TestHasAttributes.Create();
 
                 _sut.EncryptProperties(obj, EncodingType.Hex);
 
@@ -189,7 +191,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [Test]
             public void WhenEncodingTypeBase32_ThenEncodeToBase32()
             {
-                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+                var obj = TestHasAttributes.Create();
 
                 _sut.EncryptProperties(obj, EncodingType.Base32);
 
@@ -258,7 +260,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [TestCase("")]
             public void WhenPropertyWithAttributeIsNullOrEmpty_ThenDoNotDecrypt(string value)
             {
-                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+                var obj = TestHasAttributes.Create();
 
                 _sut.EncryptProperties(obj);
 
@@ -272,7 +274,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [Test]
             public void WhenEncodingIsBase64_ThenDecryptStringPropertiesWithAttribute()
             {
-                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+                var obj = TestHasAttributes.Create();
 
                 _sut.EncryptProperties(obj);
 
@@ -287,7 +289,7 @@ namespace ByteDev.Crypto.UnitTests.Encryption
             [Test]
             public void WhenEncodingIsHex_ThenDecryptStringPropertiesWithAttribute()
             {
-                var obj = new TestHasAttributes {Name = "John", Address = "Somewhere", Age = 50, Country = "UK"};
+                var obj = TestHasAttributes.Create();
 
                 _sut.EncryptProperties(obj, EncodingType.Base32);
 

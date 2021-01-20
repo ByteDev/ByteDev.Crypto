@@ -9,5 +9,10 @@ namespace ByteDev.Crypto.Reflection
         {
             return source.GetCustomAttributes(typeof(TAttribute), false).Length > 0;
         }
+
+        public static string GetValueAsString(this PropertyInfo source, object obj)
+        {
+            return source.GetValue(obj)?.ToString();
+        }
     }
 }

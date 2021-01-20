@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using ByteDev.Crypto.Hashing;
 using ByteDev.Crypto.Hashing.Algorithms;
 using NUnit.Framework;

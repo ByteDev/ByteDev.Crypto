@@ -1,5 +1,16 @@
 # Release Notes
 
+## 5.2.0 - ?
+
+Breaking changes:
+- (None)
+
+New features:
+- Added `ObjectExtensions.IsSensitive`.
+
+Bug fixes / internal changes:
+- (None)
+
 ## 5.1.1 - 18 January 2021
 
 Breaking changes:

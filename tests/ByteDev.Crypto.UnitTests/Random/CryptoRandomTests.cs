@@ -16,13 +16,13 @@ namespace ByteDev.Crypto.UnitTests.Random
             [Test]
             public void WhenValidCharsStringIsNull_ThenThrowException()
             {
-                Assert.Throws<ArgumentException>(() => new CryptoRandom(null));
+                Assert.Throws<ArgumentException>(() => _ = new CryptoRandom(null));
             }
 
             [Test]
             public void WhenValidCharsStringIsEmpty_ThenThrowException()
             {
-                Assert.Throws<ArgumentException>(() => new CryptoRandom(string.Empty));
+                Assert.Throws<ArgumentException>(() => _ = new CryptoRandom(string.Empty));
             }
         }
 

@@ -10,19 +10,19 @@ namespace ByteDev.Crypto.UnitTests.Hashing
         [Test]
         public void WhenPhraseIsNull_ThenThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new ClearPhrase(null));
+            Assert.Throws<ArgumentNullException>(() => _ = new ClearPhrase(null));
         }
 
         [Test]
         public void WhenSaltIsNull_ThenThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new ClearPhrase("phrase", null));
+            Assert.Throws<ArgumentNullException>(() => _ = new ClearPhrase("phrase", null));
         }
 
         [Test]
         public void WhenPepperIsNull_ThenThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new ClearPhrase("phrase", "salt", null));
+            Assert.Throws<ArgumentNullException>(() => _ = new ClearPhrase("phrase", "salt", null));
         }
 
         [Test]
