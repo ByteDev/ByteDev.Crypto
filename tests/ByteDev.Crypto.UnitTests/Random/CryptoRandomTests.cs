@@ -29,12 +29,13 @@ namespace ByteDev.Crypto.UnitTests.Random
         [TestFixture]
         public class GenerateArray : CryptoRandomTests
         {
-            [Test]
-            public void WhenLengthIsZero_ThenReturnEmptyArray()
+            [TestCase(-1)]
+            [TestCase(0)]
+            public void WhenLengthIsLessThanOne_ThenReturnEmptyArray(int length)
             {
                 using (var sut = new CryptoRandom(CharacterSets.Digits))
                 {
-                    var result = sut.GenerateArray(0);
+                    var result = sut.GenerateArray(length);
 
                     Assert.That(result, Is.Empty);
                 }
@@ -95,8 +96,8 @@ namespace ByteDev.Crypto.UnitTests.Random
                 {
                     var result = sut.GenerateArray(1000);
 
-                    Assert.That(result.Contains(CharacterSets.Digits[0]), Is.True);
-                    Assert.That(result.Contains(CharacterSets.Digits[9]), Is.True);
+                    Assert.That(result.Contains(CharacterSets.Digits.First()), Is.True);
+                    Assert.That(result.Contains(CharacterSets.Digits.Last()), Is.True);
                 }
             }
         }
@@ -110,6 +111,17 @@ namespace ByteDev.Crypto.UnitTests.Random
                 using (var sut = new CryptoRandom(CharacterSets.Digits))
                 {
                     Assert.Throws<ArgumentOutOfRangeException>(() => sut.GenerateArray(2, 1));
+                }
+            }
+
+            [Test]
+            public void WhenMinIsMinusAndMaxIsZero_ThenReturnEmpty()
+            {
+                using (var sut = new CryptoRandom(CharacterSets.Digits))
+                {
+                     var result = sut.GenerateArray(-1, 0);
+
+                     Assert.That(result, Is.Empty);
                 }
             }
 
@@ -153,23 +165,13 @@ namespace ByteDev.Crypto.UnitTests.Random
         [TestFixture]
         public class GenerateString : CryptoRandomTests
         {
-            [Test]
-            public void WhenLengthIsZero_ThenReturnEmpty()
+            [TestCase(-1)]
+            [TestCase(0)]
+            public void WhenLengthIsLessThanOne_ThenReturnEmpty(int length)
             {
                 using (var sut = new CryptoRandom(CharacterSets.Digits))
                 {
-                    var result = sut.GenerateString(0);
-
-                    Assert.That(result, Is.Empty);
-                }
-            }
-
-            [Test]
-            public void WhenLengthIsMinus_ThenReturnEmpty()
-            {
-                using (var sut = new CryptoRandom(CharacterSets.Digits))
-                {
-                    var result = sut.GenerateString(-1);
+                    var result = sut.GenerateString(length);
 
                     Assert.That(result, Is.Empty);
                 }
@@ -191,9 +193,9 @@ namespace ByteDev.Crypto.UnitTests.Random
             {
                 using (var sut = new CryptoRandom("A"))
                 {
-                    var result = sut.GenerateString(5);
+                    var result = sut.GenerateString(3);
 
-                    Assert.That(result, Is.EqualTo("AAAAA"));
+                    Assert.That(result, Is.EqualTo("AAA"));
                 }
             }
 
@@ -228,8 +230,8 @@ namespace ByteDev.Crypto.UnitTests.Random
                 {
                     var result = sut.GenerateString(1000);
 
-                    StringAssert.Contains(CharacterSets.Digits[0].ToString(), result);
-                    StringAssert.Contains(CharacterSets.Digits[9].ToString(), result);
+                    StringAssert.Contains(CharacterSets.Digits.First().ToString(), result);
+                    StringAssert.Contains(CharacterSets.Digits.Last().ToString(), result);
                 }
             }
         }
@@ -245,26 +247,16 @@ namespace ByteDev.Crypto.UnitTests.Random
                     Assert.Throws<ArgumentOutOfRangeException>(() => sut.GenerateString(2, 1));
                 }
             }
-
-            [Test]
-            public void WhenMinAndMaxIsZero_ThenReturnEmpty()
-            {
-                using (var sut = new CryptoRandom("A"))
-                {
-                    var result = sut.GenerateString(0, 0);
-
-                    Assert.That(result, Is.Empty);
-                }
-            }
-
-            [Test]
-            public void WhenMinIsMinusAndMaxIsZero_ThenReturnEmpty()
+            
+            [TestCase(-1)]
+            [TestCase(0)]
+            public void WhenMinIsLessThanOneAndMaxIsZero_ThenReturnEmpty(int minLength)
             {
                 using (var sut = new CryptoRandom("A"))
                 {
                     for (var i = 0; i < 100; i++)
                     {
-                        var result = sut.GenerateString(-1, 0);
+                        var result = sut.GenerateString(minLength, 0);
 
                         Assert.That(result, Is.Empty);
                     }
@@ -272,7 +264,7 @@ namespace ByteDev.Crypto.UnitTests.Random
             }
             
             [Test]
-            public void WhenMinAndMaxIsOne_ThenOneLengthString()
+            public void WhenMinAndMaxIsOne_ThenReturnOneLengthString()
             {
                 using (var sut = new CryptoRandom("A"))
                 {
@@ -326,8 +318,8 @@ namespace ByteDev.Crypto.UnitTests.Random
                 {
                     var result = sut.GenerateString(1000, 2000);
 
-                    StringAssert.Contains(CharacterSets.Digits[0].ToString(), result);
-                    StringAssert.Contains(CharacterSets.Digits[9].ToString(), result);
+                    StringAssert.Contains(CharacterSets.Digits.First().ToString(), result);
+                    StringAssert.Contains(CharacterSets.Digits.Last().ToString(), result);
                 }
             }
         }

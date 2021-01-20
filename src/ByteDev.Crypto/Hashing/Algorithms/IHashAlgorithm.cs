@@ -12,6 +12,7 @@ namespace ByteDev.Crypto.Hashing.Algorithms
         /// </summary>
         /// <param name="data">The data to hash.</param>
         /// <returns>The hash of <paramref name="data" />.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="data" /> is null.</exception>
         byte[] Hash(byte[] data);
 
         /// <summary>
@@ -19,6 +20,7 @@ namespace ByteDev.Crypto.Hashing.Algorithms
         /// </summary>
         /// <param name="stream">The stream of data to hash</param>
         /// <returns>The hash of <paramref name="stream" />.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="stream" /> is null.</exception>
         byte[] Hash(Stream stream);
     }
 }

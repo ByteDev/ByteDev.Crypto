@@ -1,15 +1,17 @@
 # Release Notes
 
-## 5.2.0 - ?
+## 6.0.0 - 20 January 2021
 
 Breaking changes:
-- (None)
+- Moved `HashService.CalcFileChecksum` to `FileChecksumService.Calculate`
 
 New features:
+- Added `FileChecksumService.Verify`.
 - Added `ObjectExtensions.IsSensitive`.
 
 Bug fixes / internal changes:
-- (None)
+- Fixed `CryptoRandom.GenerateArray` to handle a negative length.
+- Fixed `CryptoRandom.GenerateArray` so `minLength` param can never be less than zero.
 
 ## 5.1.1 - 18 January 2021
 

@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace ByteDev.Crypto.IntTests.Hashing
 {
     [TestFixture]
-    public class HashServicePerfTests
+    public class FileChecksumServicePerfTests
     {
         [Test]
         [Ignore("Takes a minute to run")]
@@ -35,7 +35,7 @@ namespace ByteDev.Crypto.IntTests.Hashing
 
             var timer = new Stopwatch();
             timer.Start();
-            new HashService(algo).CalcFileChecksum(bigFile);
+            new FileChecksumService(algo).Calculate(bigFile);
             timer.Stop();
 
             Console.WriteLine($"{messagePrefix}: " + timer.Elapsed);

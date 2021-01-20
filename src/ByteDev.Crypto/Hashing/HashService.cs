@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 using ByteDev.Crypto.Hashing.Algorithms;
 using ByteDev.Encoding;
@@ -26,6 +25,7 @@ namespace ByteDev.Crypto.Hashing
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
         /// </summary>
         /// <param name="hashAlgorithm">Hashing algorithm to use when performing any hashing operation.</param>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="hashAlgorithm" /> is null.</exception>
         public HashService(IHashAlgorithm hashAlgorithm) : this(hashAlgorithm, EncodingType.Base64)
         {
         }
@@ -34,11 +34,13 @@ namespace ByteDev.Crypto.Hashing
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
         /// </summary>
         /// <param name="hashAlgorithm">Hashing algorithm to use when performing any hashing operation.</param>
-        /// <param name="encoding">Expected end string encoding of the hash.</param>
-        public HashService(IHashAlgorithm hashAlgorithm, EncodingType encoding)
+        /// <param name="encodingType">Expected end string encoding of the hash.</param>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="hashAlgorithm" /> is null.</exception>
+        /// <exception cref="T:System.InvalidOperationException">Invalid EncodingType.</exception>
+        public HashService(IHashAlgorithm hashAlgorithm, EncodingType encodingType)
         {
-            _hashAlgorithm = hashAlgorithm;
-            _encoder = new EncoderFactory().Create(EncodingTypeConverter.ToEncodingLibType(encoding));
+            _hashAlgorithm = hashAlgorithm ?? throw new ArgumentNullException(nameof(hashAlgorithm));
+            _encoder = new EncoderFactory().Create(EncodingTypeConverter.ToEncodingLibType(encodingType));
         }
 
         /// <summary>
@@ -80,56 +82,6 @@ namespace ByteDev.Crypto.Hashing
             var hash = Hash(phrase);
 
             return expectedHash.Equals(hash, StringComparison.Ordinal);
-        }
-
-        /// <summary>
-        /// Calculates a hash checksum for a file.
-        /// </summary>
-        /// <param name="filePath">Path to file.</param>
-        /// <returns>Hash checksum of the file as string.</returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="filePath" /> is null.</exception>
-        /// <exception cref="T:System.ArgumentException"><paramref name="filePath" /> is empty.</exception>
-        /// <exception cref="T:System.IO.FileNotFoundException">File is not found.</exception>
-        public string CalcFileChecksum(string filePath)
-        {
-            using (var stream = File.OpenRead(filePath))
-            {
-                var hash = _hashAlgorithm.Hash(stream);
-
-                return _encoder.Encode(hash);
-            }
-        }
-
-        /// <summary>
-        /// Calculates a hash checksum for a file.
-        /// </summary>
-        /// <param name="filePath">Path to file.</param>
-        /// <param name="bufferSize">The number of bytes from the beginning of the file to create the checksum from.</param>
-        /// <returns>Hash checksum of the file as string.</returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="filePath" /> is null.</exception>
-        /// <exception cref="T:System.ArgumentException"><paramref name="filePath" /> is empty.</exception>
-        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="bufferSize" /> must be greater than zero.</exception>
-        /// <exception cref="T:System.IO.FileNotFoundException">File is not found.</exception>
-        public string CalcFileChecksum(string filePath, int bufferSize)
-        {
-            if (bufferSize < 1)
-                throw new ArgumentOutOfRangeException(nameof(bufferSize), "Buffer size must be greater than zero.");
-
-            var fileSize = new FileInfo(filePath).Length;
-
-            if (bufferSize > fileSize)
-                return CalcFileChecksum(filePath);
-
-            using (var stream = File.OpenRead(filePath))
-            {
-                byte[] buffer = new byte[bufferSize];
-
-                stream.Read(buffer, 0, bufferSize);
-
-                var hash = _hashAlgorithm.Hash(buffer);
-
-                return _encoder.Encode(hash);
-            }
         }
     }
 }

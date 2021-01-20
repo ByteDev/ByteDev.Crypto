@@ -12,6 +12,22 @@ namespace ByteDev.Crypto.UnitTests.Hashing
     public class HashServiceTests
     {
         [TestFixture]
+        public class Constructor : HashServiceTests
+        {
+            [Test]
+            public void WhenHashAlgorithmIsNull_ThenThrowException()
+            {
+                Assert.Throws<ArgumentNullException>(() => _ = new HashService(null));
+            }
+
+            [Test]
+            public void WhenEncodingTypeInvalid_ThenThrowException()
+            {
+                Assert.Throws<InvalidOperationException>(() => _ = new HashService(new Md5Algorithm(), (EncodingType)99));
+            }
+        }
+
+        [TestFixture]
         public class Hash : HashServiceTests
         {
             private static HashService CreateSut(EncodingType encoding = EncodingType.Base64)
@@ -153,44 +169,6 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             private bool Act(string phrase, string salt, string hashedPhrase)
             {
                 return _sut.Verify(new ClearPhrase(phrase, salt), hashedPhrase);
-            }
-        }
-
-        [TestFixture]
-        public class CalcFileChecksum : HashServiceTests
-        {
-            [Test]
-            public void WhenFilePathIsNull_ThenThrowException()
-            {
-                Assert.Throws<ArgumentNullException>(() => new HashService().CalcFileChecksum(null));
-            }
-
-            [Test]
-            public void WhenFilePathIsEmpty_ThenThrowException()
-            {
-                Assert.Throws<ArgumentException>(() => new HashService().CalcFileChecksum(string.Empty));
-            }
-        }
-
-        [TestFixture]
-        public class CalcFileChecksum_WithBuffer : HashServiceTests
-        {
-            [Test]
-            public void WhenFilePathIsNull_ThenThrowException()
-            {
-                Assert.Throws<ArgumentNullException>(() => new HashService().CalcFileChecksum(null, 1));
-            }
-
-            [Test]
-            public void WhenFilePathIsEmpty_ThenThrowException()
-            {
-                Assert.Throws<ArgumentException>(() => new HashService().CalcFileChecksum(string.Empty, 1));
-            }
-
-            [Test]
-            public void WhenBufferSpecifiedAsLessThanOne_ThenThrowException()
-            {
-                Assert.Throws<ArgumentOutOfRangeException>(() => new HashService().CalcFileChecksum(@"C:\somefile", 0));
             }
         }
     }

@@ -24,38 +24,49 @@ Full details of the release notes can be viewed on [GitHub](https://github.com/B
 
 ## Usage
 
-The library's main classes:
-- HashingService
-- EncryptionService
-- CryptoRandom
+The library is broken into three main namespaces:
+- Hashing
+- Encryption
+- Random
 
 ---
 
 ### Hashing
 
-Use namespace `ByteDev.Crypto.Hashing`.
+Use namespace `ByteDev.Crypto.Hashing`. 
 
-HashService class methods:
+This namespace contains two main classes: `HashService` and `FileChecksumService`.
+
+`HashService` class methods:
 - Hash
 - Verify
-- CalcFileChecksum
 
-Hash some clear text (returned as base 64 encoded string) and verify a guess is equal:
+`FileChecksumService` class methods:
+- Calculate
+- Verify
+
+#### `HashService`
 
 ```csharp
 IHashService service = new HashService(new Md5Algorithm(), EncodingType.Base64);
 
-string hash = service.Hash(new ClearPhrase("Password1"));
+// Hash some clear text
+string base64Hash = service.Hash(new ClearPhrase("Password1"));
 
-bool isLoginSuccessful = service.Verify(new ClearPhrase("passwordGuess"), hash);
+// Verify a phrase against a hash
+bool isSuccessful = service.Verify(new ClearPhrase("Pasword123456"), base64Hash);
 ```
 
-Calculate a checksum for a file (returned as hex encoded string):
+#### `FileChecksumService`
 
 ```csharp
-IHashService service = new HashService(new Md5Algorithm(), EncodingType.Hex);
+IFileChecksumService service = new FileChecksumService(new Md5Algorithm(), EncodingType.Hex);
 
-string checksum = service.CalcFileChecksum(@"C:\somefile.txt");
+// Calculate file checksum (hash)
+string hexChecksum = service.Calculate(@"C:\myFile.txt");
+
+// Verify existing checksum matches file's
+bool isSuccessful = service.Verify(@"C:\myFile.txt", "existingChecksum");
 ```
 
 ---
@@ -70,7 +81,7 @@ Use namespace `ByteDev.Crypto.Encryption`.
 - EncryptProperties
 - DecryptProperties
 
-Initialize `EncryptionService`:
+Initializing `EncryptionService`:
 
 ```csharp
 IEncryptionAlgorithm algo = new RijndaelAlgorithm();
@@ -80,6 +91,8 @@ EncryptionKeyIv keyIv = keyFactory.Create("Password1", Encoding.UTF8.GetBytes("s
 
 IEncryptionService service = new EncryptionService(algo, keyIv);
 ```
+
+#### `Encrypt` & `Decrypt`
 
 Encrypt a secret with a key and then decrypt it:
 
@@ -100,6 +113,8 @@ Encoder encoder = new Encoder(EncodingType.Hex);
 
 string hex = encoder.Encode(cipher);
 ```
+
+#### `EncryptProperties` & `DecryptProperties`
 
 The `EncryptionService` class also supports encrypting/decrypting an object's public string properties that use `EncryptAttribute` through the `EncryptProperties` and `DecryptProperties` methods.
 
@@ -127,11 +142,13 @@ service.DecryptProperties(info, EncodingType.Hex);
 
 Use namespace `ByteDev.Crypto.Random`.
 
-CryptoRandom class methods:
+`CryptoRandom` class methods:
 - GenerateString
 - GenerateArray
 
-Generate a random string of a specified length using only the character set specified:
+#### `GenerateString`
+
+Generate a random string of a specified length using only the character set specified (you can also call `GenerateString` with a min and max length):
 
 ```csharp
 const int length = 5;
@@ -142,4 +159,15 @@ using (var r = new CryptoRandom(CharacterSets.AlphaNumeric))
 }
 ```
 
-You can also call `GenerateString` with a min and max length.
+#### `GenerateArray`
+
+Generate a char array of random characters of a specified length using only the character set specified (you can also call `GenerateArray` with a min and max length):
+
+```csharp
+const int length = 10;
+
+using (var r = new CryptoRandom(CharacterSets.Digits))
+{
+    char[] randomChars = r.GenerateArray(length);
+}
+```

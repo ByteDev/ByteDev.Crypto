@@ -67,6 +67,9 @@ namespace ByteDev.Crypto.Random
         /// <returns>The random string.</returns>
         public char[] GenerateArray(int length)
         {
+            if (length < 1)
+                return new char[0];
+
             var buffer = new char[length];
 
             for (var i = 0; i < length; i++)
@@ -86,6 +89,9 @@ namespace ByteDev.Crypto.Random
         /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minLength" /> was greater than <paramref name="maxLength" />.</exception>
         public char[] GenerateArray(int minLength, int maxLength)
         {
+            if (minLength < 0)
+                minLength = 0;
+
             if (minLength > maxLength)
                 throw new ArgumentOutOfRangeException(nameof(minLength), "Min length was greater than max length.");
 
