@@ -44,6 +44,7 @@ This namespace contains two main classes: `HashService` and `FileChecksumService
 `FileChecksumService` class methods:
 - Calculate
 - Verify
+- Matches
 
 #### `HashService`
 
@@ -66,7 +67,10 @@ IFileChecksumService service = new FileChecksumService(new Md5Algorithm(), Encod
 string hexChecksum = service.Calculate(@"C:\myFile.txt");
 
 // Verify existing checksum matches file's
-bool isSuccessful = service.Verify(@"C:\myFile.txt", "existingChecksum");
+bool isSuccessful = service.Verify(@"C:\myFile.txt", hexChecksum);
+
+// Search directory for files with a particular checksum
+IList<string> matches = service.Matches(@"C:\Temp", hexChecksum); 
 ```
 
 ---
