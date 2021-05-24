@@ -119,5 +119,27 @@ namespace ByteDev.Crypto.UnitTests.Hashing
                 Assert.Throws<ArgumentOutOfRangeException>(() => _sut.Verify(@"C:\file.txt", "checksum", 0));
             }
         }
+
+        [TestFixture]
+        public class Matches : FileChecksumServiceTests
+        {
+            [Test]
+            public void WhenDirIsNull_ThenThrowException()
+            {
+                Assert.Throws<ArgumentNullException>(() => _sut.Matches(null, "checksum"));
+            }
+
+            [Test]
+            public void WhenDirIsEmpty_ThenThrowException()
+            {
+                Assert.Throws<ArgumentException>(() => _sut.Matches(string.Empty, "checksum"));
+            }
+
+            [Test]
+            public void WhenChecksumIsNull_ThenThrowException()
+            {
+                Assert.Throws<ArgumentNullException>(() => _sut.Matches(@"C:\file.txt", null));
+            }
+        }
     }
 }

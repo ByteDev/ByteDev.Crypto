@@ -1,5 +1,16 @@
 # Release Notes
 
+## 6.1.0 - 24 May 2021
+
+Breaking changes:
+- (None)
+
+New features:
+- Added `FileChecksumService.Matches`.
+
+Bug fixes / internal changes:
+- (None)
+
 ## 6.0.0 - 20 January 2021
 
 Breaking changes:

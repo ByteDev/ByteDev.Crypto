@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ByteDev.Crypto.Hashing.Algorithms;
 using ByteDev.Encoding;
@@ -94,45 +95,74 @@ namespace ByteDev.Crypto.Hashing
         }
 
         /// <summary>
-        /// Verify that the checksum of a file is equal to <paramref name="expectedCheckSum" />.
+        /// Verify that the checksum of a file is equal to <paramref name="expectedChecksum" />.
         /// </summary>
         /// <param name="filePath">Path of file to check.</param>
-        /// <param name="expectedCheckSum">Expected checksum of the file.</param>
+        /// <param name="expectedChecksum">Expected checksum of the file.</param>
         /// <returns>True the file checksum is correct; otherwise false.</returns>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="filePath" /> is null.</exception>
         /// <exception cref="T:System.ArgumentException"><paramref name="filePath" /> is empty.</exception>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="expectedCheckSum" /> is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="expectedChecksum" /> is null.</exception>
         /// <exception cref="T:System.IO.FileNotFoundException">File is not found.</exception>
-        public bool Verify(string filePath, string expectedCheckSum)
+        public bool Verify(string filePath, string expectedChecksum)
         {
-            if (expectedCheckSum == null)
-                throw new ArgumentNullException(nameof(expectedCheckSum));
+            if (expectedChecksum == null)
+                throw new ArgumentNullException(nameof(expectedChecksum));
 
             var checkSum = Calculate(filePath);
 
-            return expectedCheckSum.Equals(checkSum, StringComparison.Ordinal);
+            return expectedChecksum.Equals(checkSum, StringComparison.Ordinal);
         }
 
         /// <summary>
-        /// Verify that the checksum of a file is equal to <paramref name="expectedCheckSum" />.
+        /// Verify that the checksum of a file is equal to <paramref name="expectedChecksum" />.
         /// </summary>
         /// <param name="filePath">Path of file to check.</param>
-        /// <param name="expectedCheckSum">Expected checksum of the file.</param>
+        /// <param name="expectedChecksum">Expected checksum of the file.</param>
         /// <param name="bufferSize">The number of bytes from the beginning of the file to create the checksum from.</param>
         /// <returns>True the file checksum is correct; otherwise false.</returns>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="filePath" /> is null.</exception>
         /// <exception cref="T:System.ArgumentException"><paramref name="filePath" /> is empty.</exception>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="expectedCheckSum" /> is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="expectedChecksum" /> is null.</exception>
         /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="bufferSize" /> must be greater than zero.</exception>
         /// <exception cref="T:System.IO.FileNotFoundException">File is not found.</exception>
-        public bool Verify(string filePath, string expectedCheckSum, int bufferSize)
+        public bool Verify(string filePath, string expectedChecksum, int bufferSize)
         {
-            if (expectedCheckSum == null)
-                throw new ArgumentNullException(nameof(expectedCheckSum));
+            if (expectedChecksum == null)
+                throw new ArgumentNullException(nameof(expectedChecksum));
 
             var checkSum = Calculate(filePath, bufferSize);
 
-            return expectedCheckSum.Equals(checkSum, StringComparison.Ordinal);
+            return expectedChecksum.Equals(checkSum, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Searches the directory for files that have the expected checksum. Any matches
+        /// will be returned as a list of paths.
+        /// </summary>
+        /// <param name="dirPath">Directory to check for matches.</param>
+        /// <param name="expectedChecksum">Expected check sum.</param>
+        /// <returns>List of file path of files that have the expected checksum.</returns>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="dirPath" /> is null.</exception>
+        /// <exception cref="T:System.ArgumentException"><paramref name="dirPath" /> is empty.</exception>
+        /// <exception cref="T:System.IO.DirectoryNotFoundException">Directory not found.</exception>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="expectedChecksum" /> is null.</exception>
+        public IList<string> Matches(string dirPath, string expectedChecksum)
+        {
+            if (expectedChecksum == null)
+                throw new ArgumentNullException(nameof(expectedChecksum));
+
+            var files = Directory.GetFiles(dirPath);
+
+            var matches = new List<string>();
+
+            foreach (var file in files)
+            {
+                if (Verify(file, expectedChecksum))
+                    matches.Add(file);
+            }
+
+            return matches;
         }
     }
 }
