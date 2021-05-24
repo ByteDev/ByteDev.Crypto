@@ -54,7 +54,7 @@ namespace ByteDev.Crypto.Hashing
 
         /// <summary>
         /// Searches the directory for files that have the expected checksum. Any matches
-        /// will be returned as a list of paths.
+        /// will be returned as a list of file paths.
         /// </summary>
         /// <param name="dirPath">Directory to check for matches.</param>
         /// <param name="expectedChecksum">Expected check sum.</param>
