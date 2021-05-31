@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using ByteDev.Crypto.Hashing.Algorithms;
 using ByteDev.Encoding;
 
@@ -12,10 +11,12 @@ namespace ByteDev.Crypto.Hashing
     {
         private readonly IEncoder _encoder;
         private readonly IHashAlgorithm _hashAlgorithm;
+        private readonly EncodingType _encodingType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class
         /// using the algorithm <see cref="T:ByteDev.Crypto.Hashing.Algorithms.Sha256Algorithm" />.
+        /// and base 64 encoding.
         /// </summary>
         public HashService() : this(new Sha256Algorithm())
         {
@@ -23,6 +24,7 @@ namespace ByteDev.Crypto.Hashing
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashService" /> class.
+        /// using the provided hash algorithm and base 64 default encoding.
         /// </summary>
         /// <param name="hashAlgorithm">Hashing algorithm to use when performing any hashing operation.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="hashAlgorithm" /> is null.</exception>
@@ -40,6 +42,7 @@ namespace ByteDev.Crypto.Hashing
         public HashService(IHashAlgorithm hashAlgorithm, EncodingType encodingType)
         {
             _hashAlgorithm = hashAlgorithm ?? throw new ArgumentNullException(nameof(hashAlgorithm));
+            _encodingType = encodingType;
             _encoder = new EncoderFactory().Create(EncodingTypeConverter.ToEncodingLibType(encodingType));
         }
 
@@ -54,9 +57,7 @@ namespace ByteDev.Crypto.Hashing
             if(phrase == null)
                 throw new ArgumentNullException(nameof(phrase));
 
-            var encoding = new UTF8Encoding();
-
-            byte[] bytes = encoding.GetBytes(phrase.Value);
+            byte[] bytes = phrase.ToBytes();
 
             var hash = _hashAlgorithm.Hash(bytes);
 
@@ -81,7 +82,9 @@ namespace ByteDev.Crypto.Hashing
 
             var hash = Hash(phrase);
 
-            return expectedHash.Equals(hash, StringComparison.Ordinal);
+            return expectedHash
+                .FormatChecksum(_encodingType)
+                .Equals(hash, StringComparison.Ordinal);
         }
     }
 }

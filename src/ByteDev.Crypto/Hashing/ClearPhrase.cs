@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace ByteDev.Crypto.Hashing
 {
@@ -7,6 +8,8 @@ namespace ByteDev.Crypto.Hashing
     /// </summary>
     public class ClearPhrase
     {
+        private System.Text.Encoding _encoding;
+
         /// <summary>
         /// Clear text phrase to hash.
         /// </summary>
@@ -21,11 +24,15 @@ namespace ByteDev.Crypto.Hashing
         /// Any pepper to apply to the phrase.
         /// </summary>
         public string Pepper { get; }
-        
+
         /// <summary>
-        /// Combination of the phrase, salt and pepper.
+        /// Encoding used for the phrase. Default is UTF-8.
         /// </summary>
-        public string Value => Phrase + Salt + Pepper;
+        public System.Text.Encoding Encoding
+        {
+            get => _encoding ?? (_encoding = new UTF8Encoding());
+            set => _encoding = value;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.HashPhrase" /> class.
@@ -65,11 +72,17 @@ namespace ByteDev.Crypto.Hashing
 
         /// <summary>
         /// Returns a string representation of <see cref="T:ByteDev.Crypto.Hashing.HashPhrase" />.
+        /// (a concatenation of Phrase, Salt and Pepper).
         /// </summary>
         /// <returns>String representation of <see cref="T:ByteDev.Crypto.Hashing.HashPhrase" />.</returns>
         public override string ToString()
         {
-            return Value;
+            return Phrase + Salt + Pepper;
+        }
+
+        internal byte[] ToBytes()
+        {
+            return Encoding.GetBytes(ToString());
         }
     }
 }

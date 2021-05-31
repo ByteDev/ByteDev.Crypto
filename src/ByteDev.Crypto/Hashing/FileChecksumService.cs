@@ -13,6 +13,7 @@ namespace ByteDev.Crypto.Hashing
     {
         private readonly IEncoder _encoder;
         private readonly IHashAlgorithm _hashAlgorithm;
+        private readonly EncodingType _encodingType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Hashing.FileChecksumService" /> class
@@ -41,6 +42,7 @@ namespace ByteDev.Crypto.Hashing
         public FileChecksumService(IHashAlgorithm hashAlgorithm, EncodingType encodingType)
         {
             _hashAlgorithm = hashAlgorithm ?? throw new ArgumentNullException(nameof(hashAlgorithm));
+            _encodingType = encodingType;
             _encoder = new EncoderFactory().Create(EncodingTypeConverter.ToEncodingLibType(encodingType));
         }
 
@@ -110,8 +112,10 @@ namespace ByteDev.Crypto.Hashing
                 throw new ArgumentNullException(nameof(expectedChecksum));
 
             var checkSum = Calculate(filePath);
-
-            return expectedChecksum.Equals(checkSum, StringComparison.Ordinal);
+            
+            return expectedChecksum
+                .FormatChecksum(_encodingType)
+                .Equals(checkSum, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -133,7 +137,9 @@ namespace ByteDev.Crypto.Hashing
 
             var checkSum = Calculate(filePath, bufferSize);
 
-            return expectedChecksum.Equals(checkSum, StringComparison.Ordinal);
+            return expectedChecksum
+                .FormatChecksum(_encodingType)
+                .Equals(checkSum, StringComparison.Ordinal);
         }
 
         /// <summary>

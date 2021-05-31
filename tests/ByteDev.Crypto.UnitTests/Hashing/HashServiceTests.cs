@@ -75,30 +75,43 @@ namespace ByteDev.Crypto.UnitTests.Hashing
             }
 
             [Test]
-            public void WhenPhraseAndNoSalt_WhenCalledTwiceWithSamePhrase_ThenReturnEqualHashs()
+            public void WhenCalledTwiceWithSamePhrase_ThenReturnEqualHashs()
             {
-                const string phrase = "smith";
-
                 var sut = CreateSut();
 
-                var result1 = sut.Hash(new ClearPhrase(phrase));
-                var result2 = sut.Hash(new ClearPhrase(phrase));
+                var phrase = new ClearPhrase("Hello", "World", "Everyone!");
+
+                var result1 = sut.Hash(phrase);
+                var result2 = sut.Hash(phrase);
 
                 Assert.That(result1, Is.EqualTo(result2));
             }
 
             [Test]
-            public void WhenPhraseAndSalt_ThenAddSaltToHash()
+            public void WhenHasDifferentSalt_ThenReturnNotEqualHashes()
             {
                 const string phrase = "smith";
-                const string salt = "some salt";
 
                 var sut = CreateSut();
 
-                var resultSalted = sut.Hash(new ClearPhrase(phrase, salt));
-                var resultNotSalted = sut.Hash(new ClearPhrase(phrase));
+                var result1 = sut.Hash(new ClearPhrase(phrase, "some salt"));
+                var result2 = sut.Hash(new ClearPhrase(phrase, "some different salt"));
 
-                Assert.That(resultSalted, Is.Not.EqualTo(resultNotSalted));
+                Assert.That(result1, Is.Not.EqualTo(result2));
+            }
+
+            [Test]
+            public void WhenHasDifferentPepper_ThenReturnNotEqualHashes()
+            {
+                const string phrase = "smith";
+                const string salt = "some salt";
+                
+                var sut = CreateSut();
+
+                var result1 = sut.Hash(new ClearPhrase(phrase, salt, "some pepper"));
+                var result2 = sut.Hash(new ClearPhrase(phrase, salt, "some different pepper"));
+
+                Assert.That(result1, Is.Not.EqualTo(result2));
             }
         }
 
@@ -159,6 +172,17 @@ namespace ByteDev.Crypto.UnitTests.Hashing
                 var result = Act(string.Empty, string.Empty, hashedPhrase);
 
                 Assert.That(result, Is.False);
+            }
+
+            [TestCase("61409AA1FD47D4A5332DE23CBF59A36F")]
+            [TestCase("61409aa1fd47d4a5332de23cbf59a36f")]
+            public void WhenCorrectHexHash_AndDifferentCase_ThenReturnTrue(string expectedHash)
+            {
+                var sut = new HashService(new Md5Algorithm(), EncodingType.Hex);
+
+                var result = sut.Verify(new ClearPhrase("John"), expectedHash);
+
+                Assert.That(result, Is.True);
             }
 
             private string HashPhraseWithSalt(string phrase, string salt)

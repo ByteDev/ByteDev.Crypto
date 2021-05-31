@@ -37,21 +37,16 @@ Use namespace `ByteDev.Crypto.Hashing`.
 
 This namespace contains two main classes: `HashService` and `FileChecksumService`.
 
+#### `HashService`
+
 `HashService` class methods:
 - Hash
 - Verify
 
-`FileChecksumService` class methods:
-- Calculate
-- Verify
-- Matches
-
-#### `HashService`
-
 ```csharp
 IHashService service = new HashService(new Md5Algorithm(), EncodingType.Base64);
 
-// Hash some clear text
+// Hash a phrase
 string base64Hash = service.Hash(new ClearPhrase("Password1"));
 
 // Verify a phrase against a hash
@@ -59,6 +54,11 @@ bool isSuccessful = service.Verify(new ClearPhrase("Pasword123456"), base64Hash)
 ```
 
 #### `FileChecksumService`
+
+`FileChecksumService` class methods:
+- Calculate
+- Verify
+- Matches
 
 ```csharp
 IFileChecksumService service = new FileChecksumService(new Md5Algorithm(), EncodingType.Hex);

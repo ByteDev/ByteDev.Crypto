@@ -1,5 +1,17 @@
 # Release Notes
 
+## 7.0.0 - 31 May 2021
+
+Breaking changes:
+- Removed `ClearPhrase.Value` property (use `ToString()` instead).
+
+New features:
+- Added `ClearPhrase.Encoding` property (default UTF-8).
+
+Bug fixes / internal changes:
+- Fixed `FileChecksumService` to handle upper or lower case Hex encoded hashes as the same thing.
+- Fixed `HashService` to handle upper or lower case Hex encoded hashes as the same thing.
+
 ## 6.1.0 - 24 May 2021
 
 Breaking changes:

@@ -3,6 +3,7 @@ using System.Linq;
 using ByteDev.Collections;
 using ByteDev.Crypto.Hashing;
 using ByteDev.Crypto.Hashing.Algorithms;
+using ByteDev.Encoding.Hex;
 using NUnit.Framework;
 
 namespace ByteDev.Crypto.IntTests.Hashing
@@ -20,12 +21,14 @@ namespace ByteDev.Crypto.IntTests.Hashing
 
         private const int TestFile1Size = 23;    // in bytes
 
-        private FileChecksumService _sut;
+        private FileChecksumService _sutBase64;
+        private FileChecksumService _sutHex;
 
         [SetUp]
         public void SetUp()
         {
-            _sut = new FileChecksumService(new Md5Algorithm(), EncodingType.Base64);
+            _sutBase64 = new FileChecksumService(new Md5Algorithm(), EncodingType.Base64);
+            _sutHex = new FileChecksumService(new Md5Algorithm(), EncodingType.Hex);
         }
 
         [TestFixture]
@@ -34,13 +37,13 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenFileDoesNotExist_ThenThrowException()
             {
-                Assert.Throws<FileNotFoundException>(() => _sut.Calculate(NotExistsFile));
+                Assert.Throws<FileNotFoundException>(() => _sutBase64.Calculate(NotExistsFile));
             }
 
             [Test]
             public void WhenFileExists_ThenReturnsCheckSum()
             {
-                var result = _sut.Calculate(TestFile1);
+                var result = _sutBase64.Calculate(TestFile1);
 
                 Assert.That(result, Is.EqualTo("X4eScXhJRrCT1CS2N7Om+Q=="));
             }
@@ -48,10 +51,18 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenFileContentsAreEqual_ThenReturnsEqualChecksum()
             {
-                var result1 = _sut.Calculate(TestFile1);
-                var result2 = _sut.Calculate(TestFile1);
+                var result1 = _sutBase64.Calculate(TestFile1);
+                var result2 = _sutBase64.Calculate(TestFile1);
 
                 Assert.That(result1, Is.EqualTo(result2));
+            }
+
+            [Test]
+            public void WhenUsingHex_ThenReturnUpperCase()
+            {
+                var result = _sutHex.Calculate(TestFile1);
+
+                Assert.That(result.IsHex(), Is.True);
             }
         }
 
@@ -61,7 +72,7 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenFileDoesNotExist_ThenThrowException()
             {
-                Assert.Throws<FileNotFoundException>(() => _sut.Calculate(@"C:\thisdoesnotexist.txt", 1));
+                Assert.Throws<FileNotFoundException>(() => _sutBase64.Calculate(@"C:\thisdoesnotexist.txt", 1));
             }
 
             [TestCase(1)]
@@ -70,8 +81,8 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [TestCase(12)]
             public void WhenBufferGreaterThanZero_ThenCheckOnlyThatNumberOfBytes(int size)
             {
-                var result1 = _sut.Calculate(TestFile1, size);
-                var result2 = _sut.Calculate(TestFile2, size);
+                var result1 = _sutBase64.Calculate(TestFile1, size);
+                var result2 = _sutBase64.Calculate(TestFile2, size);
 
                 Assert.That(result1, Is.EqualTo(result2));
             }
@@ -79,8 +90,8 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenBufferSameSizeAsFileSize_ThenReturnEqualCheckSum()
             {
-                var result1 = _sut.Calculate(TestFile1);
-                var result2 = _sut.Calculate(TestFile1, TestFile1Size);
+                var result1 = _sutBase64.Calculate(TestFile1);
+                var result2 = _sutBase64.Calculate(TestFile1, TestFile1Size);
 
                 Assert.That(result1, Is.EqualTo(result2));
             }
@@ -88,10 +99,18 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenBufferGreaterThanFileSize_ThenReturnEqualCheckSum()
             {
-                var result1 = _sut.Calculate(TestFile1);
-                var result2 = _sut.Calculate(TestFile1, TestFile1Size + 2);
+                var result1 = _sutBase64.Calculate(TestFile1);
+                var result2 = _sutBase64.Calculate(TestFile1, TestFile1Size + 2);
 
                 Assert.That(result1, Is.EqualTo(result2));   
+            }
+
+            [Test]
+            public void WhenUsingHex_ThenReturnUpperCase()
+            {
+                var result = _sutHex.Calculate(TestFile1, 12);
+
+                Assert.That(result.IsHex(), Is.True);
             }
         }
 
@@ -101,7 +120,7 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenFileDoesNotExist_ThenThrowException()
             {
-                Assert.Throws<FileNotFoundException>(() => _sut.Verify(NotExistsFile, "expected"));
+                Assert.Throws<FileNotFoundException>(() => _sutBase64.Verify(NotExistsFile, "expected"));
             }
 
             [Test]
@@ -109,7 +128,7 @@ namespace ByteDev.Crypto.IntTests.Hashing
             {
                 const string checksum = "notCorrect";
 
-                var result = _sut.Verify(TestFile1, checksum);
+                var result = _sutBase64.Verify(TestFile1, checksum);
 
                 Assert.That(result, Is.False);
             }
@@ -117,9 +136,18 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenExpectedChecksumCorrect_ThenReturnTrue()
             {
-                var expectedChecksum = _sut.Calculate(TestFile1);
+                var expectedChecksum = _sutBase64.Calculate(TestFile1);
 
-                var result = _sut.Verify(TestFile1, expectedChecksum);
+                var result = _sutBase64.Verify(TestFile1, expectedChecksum);
+
+                Assert.That(result, Is.True);
+            }
+            
+            [TestCase("5F879271784946B093D424B637B3A6F9")]
+            [TestCase("5f879271784946b093d424b637b3a6f9")]
+            public void WhenExpectedChecksumHex_ThenReturnTrue(string expectedChecksum)
+            {
+                var result = _sutHex.Verify(TestFile1, expectedChecksum);
 
                 Assert.That(result, Is.True);
             }
@@ -131,7 +159,7 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenFileDoesNotExist_ThenThrowException()
             {
-                Assert.Throws<FileNotFoundException>(() => _sut.Verify(NotExistsFile, "expected", 1));
+                Assert.Throws<FileNotFoundException>(() => _sutBase64.Verify(NotExistsFile, "expected", 1));
             }
 
             [Test]
@@ -139,7 +167,7 @@ namespace ByteDev.Crypto.IntTests.Hashing
             {
                 const string checksum = "notCorrect";
 
-                var result = _sut.Verify(TestFile1, checksum, 12);
+                var result = _sutBase64.Verify(TestFile1, checksum, 12);
 
                 Assert.That(result, Is.False);
             }
@@ -147,9 +175,9 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenExpectedChecksumCorrect_ThenReturnTrue()
             {
-                var expectedChecksum = _sut.Calculate(TestFile1, 12);
+                var expectedChecksum = _sutBase64.Calculate(TestFile1, 12);
 
-                var result = _sut.Verify(TestFile1, expectedChecksum, 12);
+                var result = _sutBase64.Verify(TestFile1, expectedChecksum, 12);
 
                 Assert.That(result, Is.True);
             }
@@ -161,13 +189,13 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenDirDoesNotExist_ThenThrowException()
             {
-                Assert.Throws<DirectoryNotFoundException>(() => _sut.Matches(NotExistsDir, "checksum"));
+                Assert.Throws<DirectoryNotFoundException>(() => _sutBase64.Matches(NotExistsDir, "checksum"));
             }
 
             [Test]
             public void WhenDirDoesNotContainAnyMatches_ThenReturnEmpty()
             {
-                var result = _sut.Matches(TestDir, "nonMatchingChecksum");
+                var result = _sutBase64.Matches(TestDir, "nonMatchingChecksum");
 
                 Assert.That(result, Is.Empty);
             }
@@ -175,9 +203,9 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenDirContainsSingleMatch_ThenReturnSingle()
             {
-                var checksum = _sut.Calculate(TestFile1);
+                var checksum = _sutBase64.Calculate(TestFile1);
 
-                var result = _sut.Matches(TestDir, checksum);
+                var result = _sutBase64.Matches(TestDir, checksum);
 
                 Assert.That(result.Single(), Is.EqualTo(TestFile1));
             }
@@ -185,12 +213,21 @@ namespace ByteDev.Crypto.IntTests.Hashing
             [Test]
             public void WhenDirContainsTwoMatches_ThenReturnTwo()
             {
-                var checksum = _sut.Calculate(TestFile2);
+                var checksum = _sutBase64.Calculate(TestFile2);
 
-                var result = _sut.Matches(TestDir, checksum);
+                var result = _sutBase64.Matches(TestDir, checksum);
 
                 Assert.That(result.First(), Is.EqualTo(TestFile2));
                 Assert.That(result.Second(), Is.EqualTo(TestFile2Equals));
+            }
+
+            [TestCase("5F879271784946B093D424B637B3A6F9")]
+            [TestCase("5f879271784946b093d424b637b3a6f9")]
+            public void WhenHashIsHex_AndSingleMatch_ThenReturnSingle(string checksum)
+            {
+                var result = _sutHex.Matches(TestDir, checksum);
+
+                Assert.That(result.Single(), Is.EqualTo(TestFile1));
             }
         }
     }
