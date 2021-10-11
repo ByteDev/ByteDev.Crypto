@@ -146,7 +146,7 @@ service.DecryptProperties(info, EncodingType.Hex);
 
 Use namespace `ByteDev.Crypto.Random`.
 
-`CryptoRandom` class methods:
+`CryptoRandomString` class methods:
 - GenerateString
 - GenerateArray
 

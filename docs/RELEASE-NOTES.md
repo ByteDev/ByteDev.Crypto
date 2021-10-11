@@ -1,11 +1,12 @@
 # Release Notes
 
-## 7.1.0 - 11 October 2021
+## 8.0.0 - ?
 
 Breaking changes:
-- (None)
+- Renamed `CryptoRandom` to `CryptoRandomString`.
 
 New features:
+- Added `CryptoRandomNumber`.
 - Added `CharacterSets.UpperCaseHex`.
 - Added `CharacterSets.LowerCaseHex`.
 

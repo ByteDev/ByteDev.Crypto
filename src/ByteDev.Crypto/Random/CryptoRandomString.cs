@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace ByteDev.Crypto.Random
@@ -7,23 +6,21 @@ namespace ByteDev.Crypto.Random
     /// <summary>
     /// Represents a generator of cryptographically random strings and character arrays.
     /// </summary>
-    public class CryptoRandom : IDisposable
+    public class CryptoRandomString : CryptoRandomBase
     {
         private readonly string _characterSet;
-        private readonly RNGCryptoServiceProvider _rng;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ByteDev.Crypto.Random.CryptoRandom" /> class.
         /// </summary>
         /// <param name="characterSet">The character set to use when generating random strings or arrays of characters.</param>
         /// <exception cref="T:System.ArgumentException"><paramref name="characterSet" /> was null or empty.</exception>
-        public CryptoRandom(string characterSet)
+        public CryptoRandomString(string characterSet)
         {
             if (string.IsNullOrEmpty(characterSet))
                 throw new ArgumentException("Character set was null or empty.", nameof(characterSet));
 
             _characterSet = characterSet;
-            _rng = new RNGCryptoServiceProvider();
         }
 
         /// <summary>
@@ -33,6 +30,9 @@ namespace ByteDev.Crypto.Random
         /// <returns>The random string.</returns>
         public string GenerateString(int length)
         {
+            if (length < 1)
+                return string.Empty;
+
             var sb = new StringBuilder();
 
             while (sb.Length < length)
@@ -52,10 +52,16 @@ namespace ByteDev.Crypto.Random
         /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minLength" /> was greater than <paramref name="maxLength" />.</exception>
         public string GenerateString(int minLength, int maxLength)
         {
+            if (minLength < 0)
+                minLength = 0;
+
+            if (maxLength < 0)
+                maxLength = 0;
+
             if (minLength > maxLength)
                 throw new ArgumentOutOfRangeException(nameof(minLength), "Min length was greater than max length.");
 
-            int length = RandomLength(minLength, maxLength);
+            int length = GetRandomInt32(minLength, maxLength);
 
             return GenerateString(length);
         }
@@ -92,43 +98,22 @@ namespace ByteDev.Crypto.Random
             if (minLength < 0)
                 minLength = 0;
 
+            if (maxLength < 0)
+                maxLength = 0;
+
             if (minLength > maxLength)
                 throw new ArgumentOutOfRangeException(nameof(minLength), "Min length was greater than max length.");
 
-            int length = RandomLength(minLength, maxLength);
+            int length = GetRandomInt32(minLength, maxLength);
 
             return GenerateArray(length);
         }
 
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            _rng?.Dispose();
-        }
-
         private int GetIndex()
         {
-            var randomInt = _rng.GetInt();
+            var randomInt = _rng.GetInt32NonNegative();
 
             return randomInt % _characterSet.Length;
-        }
-
-        private int RandomLength(int minLength, int maxLength)
-        {
-            if (minLength == maxLength) 
-                return minLength;
-
-            var bytes = new byte[4];
-            _rng.GetBytes(bytes);
-
-            int generatedValue = Math.Abs(BitConverter.ToInt32(bytes, 0));
-
-            int diff = maxLength - minLength + 1;
-            int mod = generatedValue % diff;
-            
-            return minLength + mod;
         }
     }
 }

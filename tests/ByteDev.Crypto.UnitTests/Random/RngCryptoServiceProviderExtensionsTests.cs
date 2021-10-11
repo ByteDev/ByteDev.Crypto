@@ -15,8 +15,8 @@ namespace ByteDev.Crypto.UnitTests.Random
             {
                 using (var rng = new RNGCryptoServiceProvider())
                 {
-                    var result1 = rng.GetInt();
-                    var result2 = rng.GetInt();
+                    var result1 = rng.GetInt32();
+                    var result2 = rng.GetInt32();
 
                     Assert.That(result1, Is.Not.EqualTo(result2));
                 }
