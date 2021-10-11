@@ -1,5 +1,17 @@
 # Release Notes
 
+## 7.1.0 - 11 October 2021
+
+Breaking changes:
+- (None)
+
+New features:
+- Added `CharacterSets.UpperCaseHex`.
+- Added `CharacterSets.LowerCaseHex`.
+
+Bug fixes / internal changes:
+- (None)
+
 ## 7.0.0 - 31 May 2021
 
 Breaking changes:

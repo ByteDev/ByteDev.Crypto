@@ -29,5 +29,15 @@
         /// Special printable ASCII characters (excluding white space).
         /// </summary>
         public static readonly string AsciiSpecial = @"!""#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+
+        /// <summary>
+        /// Hexadecimal upper case characters (0-9A-F).
+        /// </summary>
+        public static readonly string UpperCaseHex = "0123456789ABCDEF";
+
+        /// <summary>
+        /// Hexadecimal lower case characters (0-9a-f).
+        /// </summary>
+        public static readonly string LowerCaseHex = "0123456789abcdef";
     }
 }
