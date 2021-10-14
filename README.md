@@ -157,7 +157,7 @@ Generate a random string of a specified length using only the character set spec
 ```csharp
 const int length = 5;
 
-using (var r = new CryptoRandom(CharacterSets.AlphaNumeric))
+using (var r = new CryptoRandomString(CharacterSets.AlphaNumeric))
 {
     string randomString = r.GenerateString(length);
 }
@@ -170,8 +170,22 @@ Generate a char array of random characters of a specified length using only the 
 ```csharp
 const int length = 10;
 
-using (var r = new CryptoRandom(CharacterSets.Digits))
+using (var r = new CryptoRandomString(CharacterSets.Digits))
 {
     char[] randomChars = r.GenerateArray(length);
+}
+```
+
+`CryptoRandomNumber` class methods:
+- GenerateInt32
+
+#### `GenerateInt32`
+
+Generate a random number.
+
+```csharp
+using (var r = new CryptoRandomNumber())
+{
+    int randomInt = r.GenerateInt32();
 }
 ```
