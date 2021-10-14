@@ -1,6 +1,6 @@
 # Release Notes
 
-## 8.0.0 - ?
+## 8.0.0 - 14 October 2021
 
 Breaking changes:
 - Renamed `CryptoRandom` to `CryptoRandomString`.
