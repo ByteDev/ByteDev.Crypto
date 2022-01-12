@@ -1,6 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/github/bytedev/ByteDev.Crypto?branch=master&svg=true)](https://ci.appveyor.com/project/bytedev/ByteDev-Crypto/branch/master)
 [![NuGet Package](https://img.shields.io/nuget/v/ByteDev.Crypto.svg)](https://www.nuget.org/packages/ByteDev.Crypto)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/dcbdaad51dac43e9aad1736377992264)](https://www.codacy.com/manual/ByteDev/ByteDev.Crypto?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ByteDev/ByteDev.Crypto&amp;utm_campaign=Badge_Grade)
 
 # ByteDev.Crypto
 
